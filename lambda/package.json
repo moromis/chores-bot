@@ -1,0 +1,10 @@
+{
+  "name": "lambda",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Kevin Ulrich",
+  "license": "MIT",
+  "dependencies": {
+    "tweetnacl": "^1.0.3"
+  }
+}
