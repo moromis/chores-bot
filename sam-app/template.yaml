@@ -42,11 +42,30 @@ Resources:
         Variables:
           TOPIC_ARN: !Ref MainSNSTopic
           PUBLIC_KEY: 9a69b606c4a4b4bdee15362ef569ad9cb114bd6c9e4a6412654c0b9fce5f0f22
+  ExampleGoodbyeJs:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: src/modules/example/goodbye.handler
+      Runtime: nodejs20.x
+      Architectures:
+        - arm64
+      MemorySize: 128
+      Timeout: 100
+      Policies:
+        - AWSLambdaBasicExecutionRole
+      Events:
+        SNSEvent:
+          Type: SNS
+          Properties:
+            Topic: !Ref MainSNSTopic
+            FilterPolicy:
+              command:
+                - goodbye
   ExampleHelloFromLambdaJs:
     Type: AWS::Serverless::Function
     Properties:
       Handler: src/modules/example/hello-from-lambda.handler
-      Runtime: nodejs16.x
+      Runtime: nodejs20.x
       Architectures:
         - arm64
       MemorySize: 128
