@@ -5,16 +5,16 @@
 const { globalHandler } = require("../handler.js");
 
 exports.data = {
-  name: "goodbye",
-  type: 1, // TODO: create enum for this
-  description: "replies with goodbye world.",
+  name: "hello",
+  type: 1,
+  description: "replies with hello world.",
 };
 
 const action = async (body) => {
   // May do something here with body
   // Body contains Discord command details
   let response = {
-    content: "Goodbye world.",
+    content: "Hello from Lambda!",
   };
   return response;
 };

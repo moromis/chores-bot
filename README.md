@@ -11,12 +11,14 @@
 </p>
 
 ## Features (currently all in-progress)
-- SQLite, Sequelize, GraphQL (?)
+- DynamoDB
+- Lambda Functions with proxy Function for commands
 - Automatic notifications
 - Easy new chore additions
 
 ## Roadmap/TODO
 - Send (ephemeral) message to each user based on their particular chore at midnight every day, to remind them of what they're currently scheduled to do
+- Assign a reviewer for every user, randomly selected without replacement. Ping that reviewer when the user marks their chore as done -- no need to get fancy and have them do anything bot-wise in Discord, they should just go check the work in-person and then sync with their reviewee if needed, otherwise give them an in-person or virtual thumbs up
 - Change to new chore schedule each Sunday
 - On Sunday at midnight send message @ing all users what their new chore is for the week
 - Allow users to:
@@ -31,3 +33,4 @@
 - User-based score board: shows precisely which chores the provided user has done in the current chore cycle
 - On Sunday, if someone did not complete their chore for the week, shame them publicly and return their chore to the to-do list before doling out new tasks
 - write tests for everything, of course
+- add deployment scripts for each command/job
