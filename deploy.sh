@@ -1,4 +1,3 @@
-cd sam-app
 npm install
 node register_commands/register.js
 sam build
