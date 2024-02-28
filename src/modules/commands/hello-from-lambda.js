@@ -19,6 +19,8 @@ const action = async (body) => {
   return response;
 };
 
+exports._action = action;
+
 exports.handler = (event) => {
   globalHandler(event, action);
 };
