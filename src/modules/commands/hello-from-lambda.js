@@ -2,9 +2,9 @@
  * A Lambda function that replies to interaction with static string
  */
 
-const { globalHandler } = require("../handler.js");
+import { globalHandler } from "../handler.js";
 
-exports.data = {
+export const data = {
   name: "hello",
   type: 1,
   description: "replies with hello world.",
@@ -19,8 +19,8 @@ const action = async (body) => {
   return response;
 };
 
-exports._action = action;
+export const _action = action;
 
-exports.handler = (event) => {
+export function handler(event) {
   globalHandler(event, action);
-};
+}
