@@ -90,17 +90,21 @@ exports.handler = async () => {
 
       // pick a random chore, change status to assigned, change user to user, change reviewer to reviewer
       const selectedChore = removeRandomFromList(unassignedChores);
-      const choreToAssign = {
-        ...selectedChore,
-        status: CHORE_STATES.ASSIGNED,
-        user: {
-          ...user,
-          currentChore: selectedChore.id,
-        },
-        reviewer: _.cloneDeep(reviewer),
-      };
-      // add chore to assignedChores list
-      assignedChores.push(choreToAssign);
+      if (!selectedChore) {
+        console.warn("unable to select a chore for ", user.displayName);
+      } else {
+        const choreToAssign = {
+          ...selectedChore,
+          status: CHORE_STATES.ASSIGNED,
+          user: {
+            ...user,
+            currentChore: selectedChore.id,
+          },
+          reviewer: _.cloneDeep(reviewer),
+        };
+        // add chore to assignedChores list
+        assignedChores.push(choreToAssign);
+      }
     })
   );
 

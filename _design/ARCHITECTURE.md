@@ -1,6 +1,7 @@
 # Commands
 - /swap: swaps your current chore for a different one. notifies the channel
 - /complete: sets your current chore to complete and notifies your reviewer (dm)
+- /assign: gets a new chore if you don't have one
 - ? /list: lists unassigned chores
 - ? /pick <chore>: picks a particular chore and assigns it to you. will unassign an incomplete chore if you have one
 - /scoreboard <?user>: shows how many chores all users or a particular user have done in the current cycle (generally a month)
