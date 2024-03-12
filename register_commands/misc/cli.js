@@ -2,7 +2,7 @@
  * Extra utility - Not used by default
  */
 
-import { register } from "./send";
+const register = require("./send").register;
 
 const { env, guildId, appId, botToken } = process.argv
   .slice(2)

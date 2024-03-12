@@ -1,0 +1,14 @@
+{
+  "name": "modules",
+  "version": "1.0.0",
+  "author": "Kevin Ulrich",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.529.1",
+    "@aws-sdk/lib-dynamodb": "^3.529.1",
+    "dayjs": "^1.11.10",
+    "discord.js": "^14.14.1",
+    "dotenv": "^16.4.5",
+    "lodash": "^4.17.21"
+  }
+}

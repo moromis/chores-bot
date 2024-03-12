@@ -12,3 +12,5 @@ build/
 template.yaml
 
 *experiment
+
+*.log

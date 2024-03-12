@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-// import { register } from "./misc/send";
+const dotenv = require("dotenv");
+const register = require("./misc/send.js").register;
 dotenv.config();
 
 if (!process.env.APP_ID || !process.env.BOT_TOKEN) {

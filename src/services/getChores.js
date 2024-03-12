@@ -1,10 +1,10 @@
-import services from ".";
-import { CHORE_STATES } from "../../../constants/chores";
-import { TABLES } from "../../../constants/tables";
+const db = require("./db");
+const CHORE_STATES = require("../constants/chores").CHORE_STATES;
+const TABLES = require("../constants/tables").TABLES;
 
 const _getChoresByState = async (state) => {
   // get all chores
-  const allChores = getAllChores();
+  const allChores = await getAllChores();
 
   // filter chores, return
   return allChores.filter((chore) => chore.status === state);
@@ -12,7 +12,7 @@ const _getChoresByState = async (state) => {
 
 const getAllChores = async () => {
   // get all chores from DynamoDB
-  const chores = services.db.scan(TABLES.CHORES);
+  const chores = await db.scan(TABLES.CHORES);
   return chores;
 };
 
@@ -21,11 +21,17 @@ const getCompletedChores = async () => {
 };
 
 const getIncompleteChores = async () => {
-  return await _getChoresByState(CHORE_STATES.ASSIGNED);
+  const result = await _getChoresByState(CHORE_STATES.ASSIGNED);
+  return result;
 };
 
 const getTodoChores = async () => {
   return await _getChoresByState(CHORE_STATES.TODO);
 };
 
-export { getAllChores, getCompletedChores, getIncompleteChores, getTodoChores };
+module.exports = {
+  getAllChores,
+  getCompletedChores,
+  getIncompleteChores,
+  getTodoChores,
+};

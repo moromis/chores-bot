@@ -1,7 +1,7 @@
-import { SNS } from "aws-sdk";
-import { sign } from "tweetnacl";
+const aws = require("aws-sdk");
+const tweetnacl = require("tweetnacl");
 
-export async function handler(event) {
+async function handler(event) {
   const strBody = event.body; // should be string, for successful sign
 
   if (!event.headers["test"]) {
@@ -15,7 +15,7 @@ export async function handler(event) {
       event.headers["x-signature-timestamp"] ||
       event.headers["X-Signature-Timestamp"];
 
-    const isVerified = sign.detached.verify(
+    const isVerified = tweetnacl.sign.detached.verify(
       Buffer.from(timestamp + strBody),
       Buffer.from(signature, "hex"),
       Buffer.from(PUBLIC_KEY, "hex")
@@ -50,7 +50,7 @@ export async function handler(event) {
       },
     };
     // Create promise and SNS service object
-    await new SNS({ apiVersion: "2010-03-31" }).publish(params).promise();
+    await new aws.SNS({ apiVersion: "2010-03-31" }).publish(params).promise();
 
     return {
       statusCode: 200,
@@ -65,3 +65,7 @@ export async function handler(event) {
     statusCode: 404,
   };
 }
+
+module.exports = {
+  handler,
+};

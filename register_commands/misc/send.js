@@ -1,11 +1,11 @@
-import axios from "axios";
-import { readdirSync } from "fs";
-import { join } from "path";
+const path = require("path");
+const axios = require("axios").default;
+const fs = require("fs");
 
 const loadCommands = async () => {
   let commandsOut = [];
 
-  const commandsPath = join(
+  const commandsPath = path.join(
     __dirname,
     "..",
     "..",
@@ -14,7 +14,7 @@ const loadCommands = async () => {
     "commands"
   );
 
-  const commands = readdirSync(commandsPath).filter((x) => {
+  const commands = fs.readdirSync(commandsPath).filter((x) => {
     return x.slice(-3) === ".js";
   });
 
@@ -25,7 +25,7 @@ const loadCommands = async () => {
   return commandsOut;
 };
 
-export async function register(appId, botToken, guildId) {
+exports.register = async (appId, botToken, guildId) => {
   const commands = await loadCommands();
   const headers = {
     Authorization: `Bot ${botToken}`,
@@ -44,4 +44,4 @@ export async function register(appId, botToken, guildId) {
       console.warn(e.statusMessage);
     });
   return;
-}
+};

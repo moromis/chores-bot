@@ -1,0 +1,13 @@
+{
+  "name": "services",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Kevin Ulrich",
+  "license": "MIT",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.529.1",
+    "@aws-sdk/lib-dynamodb": "^3.529.1",
+    "@aws-sdk/util-dynamodb": "^3.529.1",
+    "discord.js": "^14.14.1"
+  }
+}

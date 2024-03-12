@@ -1,6 +1,6 @@
-import axios from "axios";
+const axios = require("axios");
 
-export async function globalHandler(event, action) {
+async function globalHandler(event, action) {
   /*
    * Should be changed to respond differently depending on interaction type.
    * Now it only edits "Loading..." message, therefore only answers to
@@ -20,3 +20,7 @@ export async function globalHandler(event, action) {
       console.log(error);
     });
 }
+
+module.exports = {
+  globalHandler,
+};

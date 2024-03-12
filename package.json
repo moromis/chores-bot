@@ -1,24 +1,18 @@
 {
-    "name": "serverless-discord-bot",
-    "description": "Boilerplate for Serverless Discord Bot on AWS using AWS SAM.",
-    "author": "jakjus",
+    "name": "discord-chores-bot",
+    "description": "A serverless Discord bot that handles chores for a group",
+    "author": "moromis",
     "version": "0.0.1",
     "private": true,
-    "type": "module",
-    "main": "./src/index.js",
     "dependencies": {
-        "aws-sdk": "^2.1565.0",
-        "axios": "^1.6.7",
-        "tweetnacl": "^1.0.3",
-        "yaml": "^2.1.1"
+        "eslint-plugin-require-path-exists": "^1.1.9"
     },
     "devDependencies": {
-        "@sinonjs/referee": "^11.0.1",
-        "dotenv": "^16.0.1",
-        "jasmine": "^5.1.0",
-        "yaml-cfn": "^0.3.1"
+        "eslint": "^8.57.0"
     },
     "scripts": {
-        "deploy": "./deploy.sh"
+        "deploy": "./deploy.sh",
+        "upload_chores_list": "cd setup/tables && node upload_chores.js",
+        "destroy": "cd scripts && ./destroy.sh"
     }
 }

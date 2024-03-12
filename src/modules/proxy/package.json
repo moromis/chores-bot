@@ -1,8 +1,7 @@
 {
   "name": "proxy",
   "version": "1.0.0",
-  "description": "",
-  "main": "proxy-function.js",
+  "description": "Proxy lambda function -- sends requests off to other lambdas as appropriate",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

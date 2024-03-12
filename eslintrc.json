@@ -1,6 +1,11 @@
 {
+    "extends": [
+        "plugin:require-path-exists/recommended"
+    ],
+    "plugins": [
+        "require-path-exists"
+    ],
     "parserOptions": {
-        "ecmaVersion": "latest",
-        "sourceType": "module"
+        "ecmaVersion": "latest"
     }
 }
