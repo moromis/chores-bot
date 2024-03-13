@@ -18,8 +18,8 @@
         "upload_chores_list": "cd setup/tables && node upload_chores.js",
         "destroy": "cd scripts && ./destroy.sh",
         "test": "jest --passWithNoTests",
-        "test:coverage": "npm test -- --coverage",
-        "test:badges": "npm run test:coverage  && make-coverage-badge --output-path ./cov-badge.svg"
+        "test:coverage": "yarn test --coverage --collectCoverageFrom='src/**/*.js'",
+        "test:badge": "yarn test:coverage && yarn make-coverage-badge --output-path ./cov-badge.svg"
     },
     "jest": {
         "coverageReporters": [
