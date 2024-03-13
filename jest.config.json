@@ -1,0 +1,22 @@
+{
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+        "src/**/*.js"
+    ],
+    "coveragePathIgnorePatterns": [
+        "node_modules",
+        "test-config",
+        "interfaces",
+        "jestGlobalMocks.js",
+        ".module.js",
+        ".mock.js",
+        "test.js",
+        "debug.js",
+        "constants"
+    ],
+    "coverageDirectory": "<rootDir>/coverage/",
+    "coverageReporters": [
+        "json-summary",
+        "html"
+    ]
+}
