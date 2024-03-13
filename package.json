@@ -17,7 +17,7 @@
         "deploy": "./deploy.sh",
         "upload_chores_list": "cd setup/tables && node upload_chores.js",
         "destroy": "cd scripts && ./destroy.sh",
-        "test": "jest --passWithNoTests",
+        "test": "jest --passWithNoTests src",
         "test:coverage": "yarn test --coverage --collectCoverageFrom='src/**/*.js'",
         "test:badge": "yarn test:coverage && yarn make-coverage-badge --output-path ./cov-badge.svg"
     },
