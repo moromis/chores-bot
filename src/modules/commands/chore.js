@@ -32,23 +32,18 @@ const _action = async (body) => {
     chore = await services.db.getItem(TABLES.CHORES, user.currentChore);
   }
 
-  // TODO: dm the user these details and delete the Loading... message
-  let response;
-  if (chore) {
-    response = {
-      content: `<@${user.id}> Your current chore is\n${getChoreMessage(chore)}`,
-    };
-  } else {
-    response = {
-      content:
-        "Something went wrong or else you don't have a chore. Maybe try `/assign`?",
-    };
-  }
+  await services.dmUser(
+    client,
+    user.id,
+    `Your current chore is\n${getChoreMessage(chore)}`
+  );
 
   // IMPORTANT: destroy the discord.js client, otherwise the application hangs
   await client.destroy();
 
-  return response;
+  return {
+    delete: true,
+  };
 };
 
 function handler(event) {

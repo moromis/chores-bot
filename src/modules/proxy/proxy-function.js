@@ -56,7 +56,7 @@ async function handler(event) {
       statusCode: 200,
       body: JSON.stringify({
         type: 4,
-        data: { content: "*⏳ Loading...*" },
+        data: { content: "*⏳ Please Wait...*" },
       }),
     };
   }
