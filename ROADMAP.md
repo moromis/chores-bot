@@ -1,8 +1,10 @@
 # Roadmap
 ## TODO
+- check if morning cron ran
+- write tests for everything
+  - aim for coverage of >= 80%
 - once all chores are completed, let the house know to celebrate!
 - User-based score board: shows precisely which chores the provided user has done in the current chore cycle
-- write tests for everything, of course
 - add deployment scripts for each command/job so pieces can be deployed separately
 
 ## Done
@@ -21,3 +23,4 @@
 - at the end of the cycle (e.g. monthly):
   - (?) the person who did the least chores owes everyone pizza or something like that
   - reset the numCycleChores for all users
+- make single, deployable iam user/policy for main user agent

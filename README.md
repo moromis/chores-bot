@@ -11,15 +11,17 @@
 </p>
 
 ## Setup (instructions still in progress)
-1. Fill out `.example_env` and rename to `.env`
-2. Run `yarn` to install project dependencies
-3. Run `yarn setup`
-4. Modify `setup/tables/chores.json` as desired so it matches your chore list
-5. Create an AWS account
-5. NOT DONE: setup iam role for deployment - for now this can be done manually by creating a role and adding the policies mentioned in [this note](./setup/iam_user/NOTE.md) to it. Then login to the aws cli with that role.
-6. Run `yarn setup-scheduler`
-7. Deploy with `yarn deploy`
-8. Upload the initial chores data with `yarn upload-chores-list`
+1. Create a Discord channel for the Chore Bot, and enable developer mode so you can copy IDs from Discord
+2. Fill out `.example_env` and rename to `.env`
+3. Run `yarn` to install project dependencies
+4. Run `yarn setup`
+5. Modify `setup/tables/chores.json` as desired so it matches your chore list
+6. Create an AWS account
+7. Run `yarn setup-iam` (in-progress feature, use created `Bot` user for cli)  
+8. Run `yarn setup-scheduler`
+9. Deploy with `yarn deploy`
+10. Upload the initial chores data with `yarn upload-chores-list`
+11. There will now be daily, weekly, and monthly scheduled jobs that will take care of all chore assignments etc., and slash commands will be registered in your Discord guild
 
 
 ## Features

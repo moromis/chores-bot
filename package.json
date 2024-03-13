@@ -22,6 +22,7 @@
         "test:badge": "yarn test:coverage && yarn make-coverage-badge --output-path ./cov-badge.svg",
         "generate-template": "cd setup/generate_template && yarn && node generate_template.js",
         "setup-scheduler": "cd setup/scheduler && ./setup_scheduler.sh",
+        "setup-iam": "cd setup/iam_user && ./setup_iam_user_and_policy.sh",
         "setup": "yarn generate-template"
     },
     "jest": {
