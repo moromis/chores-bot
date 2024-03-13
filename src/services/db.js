@@ -3,6 +3,7 @@ const {
   ScanCommand,
   PutItemCommand,
   BatchWriteItemCommand,
+  GetItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 const DynamoDBDocumentClient =
   require("@aws-sdk/lib-dynamodb").DynamoDBDocumentClient;
@@ -59,4 +60,17 @@ const scan = async (tableId) => {
   return items ? items.map(unmarshall) : [];
 };
 
-module.exports = { put, scan, batchWrite };
+const getItem = async (tableId, itemId) => {
+  const res = await dynamo.send(
+    new GetItemCommand({
+      TableName: tableId,
+      Key: {
+        id: { S: `${itemId}` },
+      },
+    })
+  );
+  const item = res?.["Item"];
+  return item ? unmarshall(item) : null;
+};
+
+module.exports = { put, scan, batchWrite, getItem };

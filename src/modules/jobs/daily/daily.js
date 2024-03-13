@@ -4,7 +4,7 @@ dayjs.extend(weekday);
 const CHORE_STATES = require("../../../constants/chores").CHORE_STATES;
 const services = require("../../../services");
 const { Client, GatewayIntentBits } = require("discord.js");
-const { createDMMessage } = require("./createDMMessage");
+const { getDMReminderMessage } = require("./getDMReminderMessage");
 
 exports.handler = async () => {
   // Create a new client instance
@@ -27,7 +27,11 @@ exports.handler = async () => {
         const now = dayjs();
         const days = nextSunday.diff(now, "days");
 
-        await services.dmUser(client, user.id, createDMMessage(days, chore));
+        await services.dmUser(
+          client,
+          user.id,
+          getDMReminderMessage(days, chore)
+        );
       })
   );
   // IMPORTANT: destroy the discord.js client, otherwise the application hangs

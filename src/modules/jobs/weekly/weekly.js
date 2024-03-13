@@ -5,14 +5,10 @@ const { Client, GatewayIntentBits } = require("discord.js");
 const _ = require("lodash");
 const dayjs = require("dayjs");
 const { addNewUsers } = require("../../../services/addNewUsers");
-
-const removeRandomFromList = (list) => {
-  const min = 0;
-  const max = list.length;
-  const itemIndex = Math.random() * (max - min) + min;
-  const [item] = list.splice(itemIndex, 1);
-  return item;
-};
+const {
+  removeRandomFromList,
+} = require("../../../helpers/removeRandomFromList");
+const { getChoreMessage } = require("../../../helpers/getChoreMessage");
 
 exports.handler = async () => {
   // Create a new client instance
@@ -59,7 +55,6 @@ exports.handler = async () => {
   }
 
   // update users if needed, based on the "chore-boy" role
-  // TODO: abstract this to a service
   const users = await addNewUsers(client);
 
   // duplicate users list to list named reviewers
@@ -73,7 +68,8 @@ exports.handler = async () => {
 
   // if the length of the unassigned chores list is 0, move all complete chores to unassigned
   if (unassignedChores.length === 0) {
-    await services.unassignChores(unassignedChores);
+    // TODO: big deal here! celebrate all chores being done!
+    await services.unassignCompletedChores();
     unassignedChores = await services.getTodoChores();
   }
 
@@ -81,8 +77,8 @@ exports.handler = async () => {
     users.map(async (user) => {
       // if the length of the unassigned chores list is 0, move all complete chores to unassigned
       if (unassignedChores.length === 0) {
-        const completedChores = await services.getCompletedChores();
-        await services.unassignChores(completedChores);
+        // TODO: big deal here! celebrate all chores being done!
+        await services.unassignCompletedChores();
         unassignedChores = await services.getTodoChores();
       }
       // pick a random user from reviewers list, remove from list
@@ -113,10 +109,9 @@ exports.handler = async () => {
   await services.messageChoresChannel(client, "### New Chores");
   await Promise.all(
     assignedChores.map(async (chore) => {
-      const { user, displayName, description } = chore;
       await services.messageChoresChannel(
         client,
-        `**<@${user.id}>**\n**Chore:** ${displayName}\n**Description:** ${description}`
+        `**<@${chore.user.id}>**\n${getChoreMessage(chore)}`
       );
     })
   );

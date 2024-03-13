@@ -31,6 +31,11 @@ const action = async (body) => {
       ..._.omit(chore, ["user", "reviewer"]),
       status: CHORE_STATES.COMPLETE,
     });
+    await db.put(TABLES.USERS, {
+      ..._.omit(chore.user, ["currentChore"]),
+      numCycleChores: chore.user.numCycleChores + 1,
+      numAllTimeChores: chore.user.numAllTimeChores + 1,
+    });
   } else {
     return {
       content: `You don't have an assigned chore right now. Type \`/assign\``,
@@ -40,7 +45,9 @@ const action = async (body) => {
   await dmUser(
     client,
     chore.reviewer.id,
-    `<@${userId}> is done with their chore. You're their reviewer, so please check their work.\n**Chore**: ${chore.displayName}\n***Description**: ${chore.description}`
+    `<@${userId}> is done with their chore. You're their reviewer, so please check their work.\n${getChoreMessage(
+      chore
+    )}`
   );
 
   let response = {

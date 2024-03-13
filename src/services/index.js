@@ -8,6 +8,8 @@ const getAllUsers = require("./getAllUsers").getAllUsers;
 const messageChoresChannel =
   require("./messageChoresChannel").messageChoresChannel;
 const unassignChores = require("./unassignChores").unassignChores;
+const unassignCompletedChores =
+  require("./unassignCompletedChores").unassignCompletedChores;
 
 module.exports = {
   getAllUsers,
@@ -19,4 +21,5 @@ module.exports = {
   dmUser,
   messageChoresChannel,
   db,
+  unassignCompletedChores,
 };
