@@ -10,8 +10,10 @@
   </a>
 </p>
 
-## Features (currently all in-progress)
+## Features
 - DynamoDB
 - Lambda Functions with proxy Function for commands
-- Automatic notifications
+- SAM stack, uses CloudFormation to setup app based on template yaml
+- Automatic new chore assignments weekly
+- Automatic chore reminders daily
 - Easy new chore additions
