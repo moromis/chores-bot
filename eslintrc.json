@@ -7,5 +7,15 @@
     ],
     "parserOptions": {
         "ecmaVersion": "latest"
-    }
+    },
+    "overrides": [
+        {
+            "files": [
+                "tests/**/*"
+            ],
+            "env": {
+                "jest": true
+            }
+        }
+    ]
 }

@@ -8,11 +8,14 @@
         "eslint-plugin-require-path-exists": "^1.1.9"
     },
     "devDependencies": {
-        "eslint": "^8.57.0"
+        "@types/jest": "^29.5.12",
+        "eslint": "^8.57.0",
+        "jest": "^29.7.0"
     },
     "scripts": {
         "deploy": "./deploy.sh",
         "upload_chores_list": "cd setup/tables && node upload_chores.js",
-        "destroy": "cd scripts && ./destroy.sh"
+        "destroy": "cd scripts && ./destroy.sh",
+        "test": "jest --passWithNoTests"
     }
 }
