@@ -1,4 +1,4 @@
-This isn't working just yet, but this would setup all the permissions you need for your bot/user IAM account to do everything related to this app.
+this is to automatically setup an iam user and policy, and attach the policy to the user, such that that user 
 
 The full list of permissions that should be rolled into a single policy, ideally is:
 - IAMFullAccess

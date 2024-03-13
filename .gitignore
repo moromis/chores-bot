@@ -18,3 +18,5 @@ template.old.yaml
 *.log
 
 coverage/
+
+chores.json

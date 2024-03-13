@@ -1,0 +1,22 @@
+[
+    {
+        "displayName": "Clean kitchen sink",
+        "description": "Clean the sink, faucet, and counter in the kitchen",
+        "status": 0
+    },
+    {
+        "displayName": "Vacuum stairs",
+        "description": "Vacuum the stairs from the living room up to the music room/entryway and the stairs from the entryway to the upstairs hallway",
+        "status": 0
+    },
+    {
+        "displayName": "Clean microwave",
+        "description": "Clean the inside and face of the microwave, the rotating plate, and the food cover",
+        "status": 0
+    },
+    {
+        "displayName": "Clean fridge",
+        "description": "Clean the fridge - does not include the freezer, just the fridge. Also doesn't include going through the food inside. Remove all food, clean the interior, then place the food back inside.",
+        "status": 0
+    }
+]
