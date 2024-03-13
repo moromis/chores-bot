@@ -18,7 +18,7 @@ const data = {
 const _action = async () => {
   const allUsers = await getAllUsers();
   const allScores = allUsers
-    .sort((u1, u2) => u1.numCycleChores - u2.numCycleChores)
+    .sort((u1, u2) => u2.numCycleChores - u1.numCycleChores)
     .map((u) => `${u.displayName}: ${u.numCycleChores}`);
 
   let response = {
