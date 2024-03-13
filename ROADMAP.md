@@ -3,7 +3,7 @@
 - once all chores are completed, let the house know to celebrate!
 - User-based score board: shows precisely which chores the provided user has done in the current chore cycle
 - write tests for everything, of course
-- add deployment scripts for each command/job
+- add deployment scripts for each command/job so pieces can be deployed separately
 
 ## Done
 - Send (ephemeral) message to each user based on their particular chore at midnight every day, to remind them of what they're currently scheduled to do

@@ -1,0 +1,11 @@
+{
+  "name": "generate_template",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Kevin Ulrich",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "yaml-cfn": "^0.3.2"
+  }
+}
