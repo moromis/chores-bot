@@ -5,8 +5,9 @@
 <p align='center'>
   <i>A Discord bot that keeps track of and notifies roommate chore responsibilities.</i> 
   </br></br>
+  <img src='cov-badge.svg'>
   <a href='https://github.com/moromis/chores-bot/actions/workflows/test.yaml'>
-    <img src='cov-badge.svg'>
+    <img src='https://github.com/moromis/chores-bot/actions/workflows/test.yaml/badge.svg'>
   </a>
 </p>
 
