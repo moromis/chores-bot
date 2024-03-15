@@ -6,6 +6,6 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Install modules (recursively)
-      run: yarn && yarn install-deps
+      run: yarn install-deps
     - name: Run tests
       run: yarn test

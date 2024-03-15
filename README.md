@@ -14,7 +14,7 @@
 ## Setup (instructions still in progress)
 1. Create a Discord channel for the Chore Bot, and enable developer mode so you can copy IDs from Discord
 2. Fill out `.example_env` and rename to `.env`
-3. Run `yarn` to install project dependencies
+3. Run `yarn install-deps` to install project dependencies
 4. Run `yarn setup`
 5. Modify `setup/tables/example_chores.json` as desired so it matches your chore list, then rename it to `chores.json`
 6. Create an AWS account

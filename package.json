@@ -26,6 +26,6 @@
         "setup-scheduler": "cd setup/scheduler && ./setup_scheduler.sh",
         "setup-iam": "cd setup/iam_user && ./setup_iam_user_and_policy.sh",
         "setup": "yarn generate-template",
-        "install-deps": "node recursive-install-yarn.js --rootDir=src"
+        "install-deps": "yarn && node recursive-install-yarn.js --rootDir=src"
     }
 }
