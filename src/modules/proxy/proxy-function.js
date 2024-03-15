@@ -1,4 +1,4 @@
-const aws = require("aws-sdk");
+const { SNSClient, PublishCommand } = require("@aws-sdk/client-sns");
 const tweetnacl = require("tweetnacl");
 
 async function handler(event) {
@@ -50,7 +50,8 @@ async function handler(event) {
       },
     };
     // Create promise and SNS service object
-    await new aws.SNS({ apiVersion: "2010-03-31" }).publish(params).promise();
+    const snsClient = new SNSClient();
+    snsClient.send(new PublishCommand(params));
 
     return {
       statusCode: 200,

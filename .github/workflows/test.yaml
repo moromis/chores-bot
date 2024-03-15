@@ -4,8 +4,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install modules
-      run: yarn
+    - uses: actions/checkout@v4
+    - name: Install modules (recursively)
+      run: yarn && yarn install-deps
     - name: Run tests
       run: yarn test

@@ -9,7 +9,7 @@
   "author": "Kevin Ulrich",
   "license": "ISC",
   "dependencies": {
-    "aws-sdk": "^2.1567.0",
+    "@aws-sdk/client-sns": "^3.533.0",
     "tweetnacl": "^1.0.3"
   }
 }
