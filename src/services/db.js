@@ -29,29 +29,24 @@ const batchWrite = async function (tableId, items) {
     const marshalled = marshall(x);
     return Object.assign({ PutRequest: { Item: marshalled } });
   });
-  try {
-    const batches = [];
+  const batches = [];
 
-    while (marshalledItems.length) {
-      batches.push(marshalledItems.splice(0, 25));
-    }
-
-    return Promise.all(
-      batches.map(async (batch) => {
-        requestItems = {};
-        requestItems[tableId] = batch;
-
-        const params = {
-          RequestItems: requestItems,
-        };
-
-        dynamo.send(new BatchWriteItemCommand(params));
-      })
-    );
-  } catch (error) {
-    console.log(error);
-    return error;
+  while (marshalledItems.length) {
+    batches.push(marshalledItems.splice(0, 25));
   }
+
+  return Promise.all(
+    batches.map(async (batch) => {
+      requestItems = {};
+      requestItems[tableId] = batch;
+
+      const params = {
+        RequestItems: requestItems,
+      };
+
+      dynamo.send(new BatchWriteItemCommand(params));
+    })
+  );
 };
 
 const scan = async (tableId) => {

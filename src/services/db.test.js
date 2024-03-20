@@ -3,9 +3,13 @@ const {
   DynamoDBClient,
   ScanCommand,
   GetItemCommand,
+  BatchWriteItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 const { db } = require(".");
-const { DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
+const {
+  DynamoDBDocumentClient,
+  BatchWriteCommand,
+} = require("@aws-sdk/lib-dynamodb");
 
 const dbMock = mockClient(DynamoDBClient);
 const documentMock = mockClient(DynamoDBDocumentClient);
@@ -61,6 +65,26 @@ describe("db", () => {
       const res = await db.getItem("test");
       expect(res).toHaveProperty("id");
       expect(res.id).toBe("test");
+    });
+  });
+
+  describe("batchWrite", () => {
+    test("it no items are given, no commands should be issued", async () => {
+      //   documentMock.on(GetItemCommand).resolves({});
+      await db.batchWrite("test", []);
+      expect(documentMock.calls.length).toBe(0);
+    });
+    test("if items are given, batchwrite should be called", async () => {
+      documentMock.on(BatchWriteItemCommand).resolves({});
+      await db.batchWrite("test", [{ item: "test" }]);
+      expect(documentMock.send.called).toBeTruthy();
+    });
+    test("if write errors, the function should return the error", async () => {
+      //   documentMock.on(BatchWriteItemCommand).rejects("error");
+      documentMock.rejects("error");
+
+      //   const res = await ;
+      expect(() => db.batchWrite("test", [{ item: "test" }])).toThrow("error");
     });
   });
 });
