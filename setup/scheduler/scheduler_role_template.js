@@ -1,4 +1,4 @@
-{
+exports.create_template_string = () => `{
     "Version": "2012-10-17",
     "Statement": [
         {
@@ -9,10 +9,10 @@
             "Action": "sts:AssumeRole",
             "Condition": {
                 "StringEquals": {
-                    "aws:SourceAccount": "ACCOUNT_ID",
-                    "aws:SourceArn": "COPY_FROM_SCHEDULER_GROUP_PAGE"
+                    "aws:SourceAccount": "${process.env.AWS_ID}",
+                    "aws:SourceArn": "arn:aws:scheduler:us-east-2:${process.env.AWS_ID}:schedule-group/default"
                 }
             }
         }
     ]
-}
+}`;

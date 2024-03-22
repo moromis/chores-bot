@@ -1,11 +1,12 @@
 const { CHORE_STATES } = require("../../constants/chores.js");
 const { TABLES } = require("../../constants/tables.js");
-const { getAllChores, getTodoChores } = require("../../services/getChores.js");
+const { getTodoChores, getChore } = require("../../services/getChores.js");
 const _ = require("lodash");
 const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
+const { getUser } = require("../../services/getUser.js");
 
 const globalHandler = require("../handler.js").globalHandler;
 const db = require("../../services").db;
@@ -19,8 +20,8 @@ const data = {
 const _action = async (body) => {
   const userId = body.member.user.id;
 
-  const allChores = await getAllChores();
-  const oldChore = allChores.find((c) => c?.user?.id === userId);
+  const user = getUser(userId);
+  const oldChore = getChore(user.currentChore);
   let newChore;
   if (!oldChore) {
     return {
@@ -49,9 +50,7 @@ const _action = async (body) => {
   let response;
   if (newChore) {
     response = {
-      content: `<@${userId}> Your new chore is\n${getChoreMessage(
-        newChore
-      )}\nYour reviewer is still <@${oldChore.reviewer.id}>`,
+      content: `<@${userId}> Your new chore is\n${getChoreMessage(newChore)}`,
     };
   } else {
     response = {

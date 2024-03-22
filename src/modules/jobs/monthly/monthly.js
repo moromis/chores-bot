@@ -1,6 +1,6 @@
 const TABLES = require("../../../constants/tables").TABLES;
 const services = require("../../../services");
-const { addNewUsers } = require("../../../services/addNewUsers");
+const { updateUsers } = require("../../../services/updateUsers");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 exports.handler = async () => {
@@ -12,8 +12,10 @@ exports.handler = async () => {
   await client.login(process.env.BOT_TOKEN);
 
   // update users if needed, based on the "chore-boy" role
-  const users = await addNewUsers(client);
-  const scores = users.sort((u1, u2) => u2.numCycleChores - u1.numCycleChores);
+  const activeUsers = (await updateUsers(client)).filter((u) => !u.inactive);
+  const scores = activeUsers.sort(
+    (u1, u2) => u2.numCycleChores - u1.numCycleChores
+  );
 
   if (scores.length > 0) {
     const lowestScoring = scores[scores.length - 1];
@@ -31,7 +33,7 @@ exports.handler = async () => {
 
   await services.db.batchWrite(
     TABLES.USERS,
-    users.map((user) => ({
+    activeUsers.map((user) => ({
       ...user,
       numCycleChores: 0,
     }))

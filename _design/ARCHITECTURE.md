@@ -23,6 +23,7 @@ users
         displayName
         numCycleChores
         numAllTimeChores
+        inactive
         * currentChore (-> chores)
 
 chores

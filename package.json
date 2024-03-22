@@ -4,6 +4,7 @@
     "author": "moromis",
     "version": "0.0.1",
     "private": true,
+    "license": "./LICENSE.md",
     "dependencies": {
         "eslint-plugin-require-path-exists": "^1.1.9"
     },
@@ -16,16 +17,24 @@
         "recursive-install": "^1.4.0"
     },
     "scripts": {
-        "deploy": "./deploy.sh",
+        "deploy": "./scripts/deploy.sh",
+        "dev:deploy": "export AWS_PROFILE=cb-dev && export DEV=true && ./scripts/deploy.sh",
         "upload-chores-list": "cd setup/tables && node upload_chores.js",
+        "dev:upload-chores-list": "export AWS_PROFILE=cb-dev && cd setup/tables && node upload_chores.js",
+        "register-commands": "cd register_commands && node register.js",
+        "dev:register-commands": "export AWS_PROFILE=cb-dev && export DEV=true && cd register_commands && node register.js",
         "destroy": "cd scripts && ./destroy.sh",
+        "dev:destroy": "export AWS_PROFILE=cb-dev && cd scripts && ./destroy.sh",
         "test": "jest --passWithNoTests src",
         "test:coverage": "yarn test --config jest.config.json --no-cache",
         "test:badge": "yarn test:coverage && yarn make-coverage-badge --output-path ./cov-badge.svg",
         "generate-template": "cd setup/generate_template && yarn && node generate_template.js",
         "setup-scheduler": "cd setup/scheduler && ./setup_scheduler.sh",
+        "dev:setup-scheduler": "export AWS_PROFILE=cb-dev && export DEV=true && cd setup/scheduler && ./setup_scheduler.sh",
         "setup-iam": "cd setup/iam_user && ./setup_iam_user_and_policy.sh",
+        "dev:setup-iam": "export AWS_PROFILE=cb-dev && cd setup/iam_user && ./setup_iam_user_and_policy.sh",
         "setup": "yarn generate-template",
-        "install-deps": "yarn && node recursive-install-yarn.js --rootDir=src"
+        "dev:setup": "export AWS_PROFILE=cb-dev && yarn generate-template",
+        "install-deps": "yarn && node scripts/recursive-install-yarn.js --rootDir=src"
     }
 }

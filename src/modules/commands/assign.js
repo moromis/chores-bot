@@ -6,7 +6,7 @@ const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
-const { addNewUsers } = require("../../services/addNewUsers.js");
+const { updateUsers } = require("../../services/updateUsers.js");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const globalHandler = require("../handler.js").globalHandler;
@@ -27,7 +27,7 @@ const _action = async (body) => {
   await client.login(process.env.BOT_TOKEN);
 
   const userId = body.member.user.id;
-  const allUsers = await addNewUsers(client);
+  const allUsers = await updateUsers(client); // TODO: maybe we should actually only update users in weekly and maybe monthly?
   const user = allUsers.find((u) => u.id === userId);
   if (user.hasOwnProperty("currentChore")) {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs
@@ -38,7 +38,7 @@ const _action = async (body) => {
   }
 
   let newChore;
-  const choresToPickFrom = await services.getTodoChores();
+  let choresToPickFrom = await services.getTodoChores();
   if (choresToPickFrom.length === 0) {
     // TODO: big deal here! celebrate all chores being done!
     await services.unassignCompletedChores();
@@ -65,14 +65,16 @@ const _action = async (body) => {
 
   const reviewer = _.cloneDeep(removeRandomFromList(potentialReviewers));
   if (newChore) {
-    await db.put(TABLES.CHORES, {
+    newChore = {
       ...newChore,
-      user: _.cloneDeep(user),
-      reviewer,
+      user: user.id,
+      reviewer: reviewer.id,
       status: CHORE_STATES.ASSIGNED,
-    });
+    };
+    await db.put(TABLES.CHORES, newChore);
     await db.put(TABLES.USERS, {
       ...user,
+      inactive: false,
       currentChore: newChore.id,
     });
   }
@@ -80,9 +82,7 @@ const _action = async (body) => {
   let response;
   if (newChore) {
     response = {
-      content: `<@${userId}> Your chore is\n${getChoreMessage(
-        newChore
-      )}\nYour reviewer is <@${reviewer.id}>`,
+      content: `<@${userId}> Your new chore is\n${getChoreMessage(newChore)}`,
     };
   } else {
     response = {

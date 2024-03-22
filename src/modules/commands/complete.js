@@ -1,9 +1,11 @@
 const { CHORE_STATES } = require("../../constants/chores.js");
 const { TABLES } = require("../../constants/tables.js");
 const { dmUser } = require("../../services/dmUser.js");
-const { getAllChores } = require("../../services/getChores.js");
+const { getChore } = require("../../services/getChores.js");
 const _ = require("lodash");
 const { Client, GatewayIntentBits } = require("discord.js");
+const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
+const { getUser } = require("../../services/getUser.js");
 
 const globalHandler = require("../handler.js").globalHandler;
 const db = require("../../services").db;
@@ -14,7 +16,7 @@ const data = {
   description: "mark your chore as complete",
 };
 
-const action = async (body) => {
+const _action = async (body) => {
   // Create a new client instance
   const client = new Client({
     intents: [GatewayIntentBits.Guilds],
@@ -24,17 +26,19 @@ const action = async (body) => {
 
   const userId = body.member.user.id;
 
-  const allChores = await getAllChores();
-  const chore = allChores.find((c) => c?.user?.id === userId);
+  // const allChores = await getAllChores();
+  // const chore = allChores.find((c) => c?.user?.id === userId);
+  const user = await getUser(userId);
+  const chore = await getChore(user.currentChore);
   if (chore) {
     await db.put(TABLES.CHORES, {
       ..._.omit(chore, ["user", "reviewer"]),
       status: CHORE_STATES.COMPLETE,
     });
     await db.put(TABLES.USERS, {
-      ..._.omit(chore.user, ["currentChore"]),
-      numCycleChores: chore.user.numCycleChores + 1,
-      numAllTimeChores: chore.user.numAllTimeChores + 1,
+      ..._.omit(user, ["currentChore"]),
+      numCycleChores: (user?.numCycleChores || 0) + 1,
+      numAllTimeChores: (user?.numAllTimeChores || 0) + 1,
     });
   } else {
     return {
@@ -44,26 +48,25 @@ const action = async (body) => {
 
   await dmUser(
     client,
-    chore.reviewer.id,
+    chore.reviewer,
     `<@${userId}> is done with their chore. You're their reviewer, so please check their work.\n${getChoreMessage(
       chore
     )}`
   );
 
-  let response = {
-    content: `<@${userId}> You completed your chore! :tada: Type \`/assign\` if you want another one.`,
-  };
-
   await client.destroy();
 
-  return response;
+  return {
+    content: `<@${userId}> You completed your chore! :tada: Type \`/assign\` if you want another one.`,
+  };
 };
 
 function handler(event) {
-  globalHandler(event, action);
+  globalHandler(event, _action);
 }
 
 module.exports = {
   data,
   handler,
+  _action,
 };
