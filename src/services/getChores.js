@@ -10,6 +10,12 @@ const _getChoresByState = async (state) => {
   return allChores.filter((chore) => chore.status === state);
 };
 
+const getChore = async (choreId) => {
+  // get all chores from DynamoDB
+  const chore = await db.getItem(TABLES.CHORES, choreId);
+  return chore;
+};
+
 const getAllChores = async () => {
   // get all chores from DynamoDB
   const chores = await db.scan(TABLES.CHORES);
@@ -34,4 +40,5 @@ module.exports = {
   getCompletedChores,
   getIncompleteChores,
   getTodoChores,
+  getChore,
 };

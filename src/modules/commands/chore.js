@@ -1,12 +1,6 @@
-const { CHORE_STATES } = require("../../constants/chores.js");
 const { TABLES } = require("../../constants/tables.js");
 const services = require("../../services");
-const _ = require("lodash");
-const {
-  removeRandomFromList,
-} = require("../../helpers/removeRandomFromList.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
-const { addNewUsers } = require("../../services/addNewUsers.js");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const globalHandler = require("../handler.js").globalHandler;
@@ -32,11 +26,21 @@ const _action = async (body) => {
     chore = await services.db.getItem(TABLES.CHORES, user.currentChore);
   }
 
-  await services.dmUser(
-    client,
-    user.id,
-    `Your current chore is\n${getChoreMessage(chore)}`
-  );
+  if (chore) {
+    console.log("got chore ", chore);
+    await services.dmUser(
+      client,
+      user.id,
+      `Your current chore is\n${getChoreMessage(chore)}`
+    );
+  } else {
+    // IMPORTANT: destroy the discord.js client, otherwise the application hangs
+    await client.destroy();
+
+    return {
+      content: "Couldn't find your chore. Maybe you need to do `/assign`?",
+    };
+  }
 
   // IMPORTANT: destroy the discord.js client, otherwise the application hangs
   await client.destroy();

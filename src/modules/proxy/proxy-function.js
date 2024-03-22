@@ -22,6 +22,7 @@ async function handler(event) {
     );
 
     if (!isVerified) {
+      console.error("401 return code");
       return {
         statusCode: 401,
         body: JSON.stringify("invalid request signature"),
@@ -40,6 +41,7 @@ async function handler(event) {
 
   // Handle command (send to SNS and split to one of Lambdas)
   if (body.data.name) {
+    console.log(body.data.name);
     var eventText = JSON.stringify(body, null, 2);
     var params = {
       Message: eventText,
@@ -49,9 +51,10 @@ async function handler(event) {
         command: { DataType: "String", StringValue: body.data.name },
       },
     };
+    console.log("sending ", params);
     // Create promise and SNS service object
     const snsClient = new SNSClient();
-    snsClient.send(new PublishCommand(params));
+    await snsClient.send(new PublishCommand(params));
 
     return {
       statusCode: 200,

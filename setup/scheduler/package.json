@@ -1,0 +1,10 @@
+{
+  "name": "scheduler",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Kevin Ulrich",
+  "license": "MIT",
+  "dependencies": {
+    "dotenv": "^16.4.5"
+  }
+}

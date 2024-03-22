@@ -8,6 +8,7 @@
     "@aws-sdk/client-dynamodb": "^3.529.1",
     "@aws-sdk/lib-dynamodb": "^3.529.1",
     "@aws-sdk/util-dynamodb": "^3.529.1",
-    "discord.js": "^14.14.1"
+    "discord.js": "^14.14.1",
+    "lodash": "^4.17.21"
   }
 }
