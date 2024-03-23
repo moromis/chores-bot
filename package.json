@@ -11,6 +11,7 @@
     "devDependencies": {
         "@types/jest": "^29.5.12",
         "aws-sdk-client-mock": "^3.0.1",
+        "aws-sdk-client-mock-jest": "^4.0.0",
         "eslint": "^8.57.0",
         "jest": "^29.7.0",
         "make-coverage-badge": "^1.2.0",
@@ -26,7 +27,7 @@
         "destroy": "cd scripts && ./destroy.sh",
         "dev:destroy": "export AWS_PROFILE=cb-dev && cd scripts && ./destroy.sh",
         "test": "jest --passWithNoTests src",
-        "test:coverage": "yarn test --config jest.config.json --no-cache",
+        "test:coverage": "yarn test --silent --config jest.config.json --no-cache",
         "test:badge": "yarn test:coverage && yarn make-coverage-badge --output-path ./cov-badge.svg",
         "generate-template": "cd setup/generate_template && yarn && node generate_template.js",
         "setup-scheduler": "cd setup/scheduler && ./setup_scheduler.sh",
