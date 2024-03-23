@@ -6,7 +6,7 @@ const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
-const { updateUsers } = require("../../services/updateUsers.js");
+const { user } = require("../../services");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const globalHandler = require("../handler.js").globalHandler;
@@ -27,7 +27,7 @@ const _action = async (body) => {
   await client.login(process.env.BOT_TOKEN);
 
   const userId = body.member.user.id;
-  const allUsers = await updateUsers(client); // TODO: maybe we should actually only update users in weekly and maybe monthly?
+  const allUsers = await user.updateUsers(client); // TODO: maybe we should actually only update users in weekly and maybe monthly?
   const user = allUsers.find((u) => u.id === userId);
   if (user.hasOwnProperty("currentChore")) {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs

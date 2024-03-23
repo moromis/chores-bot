@@ -1,9 +1,15 @@
+const db = require("./db");
+const TABLES = require("../constants/tables").TABLES;
 const { CHORE_ROLE } = require("../constants/roles");
-const { TABLES } = require("../constants/tables");
 const services = require(".");
 const _ = require("lodash");
 
-exports.updateUsers = async (client) => {
+const getAllUsers = async () => {
+  // get all users from DynamoDB
+  return await db.scan(TABLES.USERS);
+};
+
+const updateUsers = async (client) => {
   const guild = client.guilds.resolve(process.env.GUILD_ID);
   const members = await guild.members.fetch({ force: true });
   const currentUserList = members
@@ -16,7 +22,7 @@ exports.updateUsers = async (client) => {
   const currentUserIds = currentUserList.map((u) => u.id);
 
   // get all users
-  let dbUserList = await services.getAllUsers();
+  let dbUserList = await getAllUsers();
   // new users are ones that are in the current collection but weren't in the DB
   const newUsers = _.differenceBy(currentUserList, dbUserList, "id");
   // users that are now inactive are ones that were in the DB but aren't in our current list
@@ -47,4 +53,15 @@ exports.updateUsers = async (client) => {
   }
 
   return users;
+};
+
+const getUser = async (userId) => {
+  // get all users from DynamoDB
+  return await db.getItem(TABLES.USERS, userId);
+};
+
+module.exports = {
+  getAllUsers,
+  getUser,
+  updateUsers,
 };

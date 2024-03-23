@@ -6,7 +6,7 @@ const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
-const { getUser } = require("../../services/getUser.js");
+const { getUser } = require("../../services/user.js");
 
 const globalHandler = require("../handler.js").globalHandler;
 const db = require("../../services").db;

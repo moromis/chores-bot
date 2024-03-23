@@ -4,7 +4,6 @@ const services = require("../../../services");
 const { Client, GatewayIntentBits } = require("discord.js");
 const _ = require("lodash");
 const dayjs = require("dayjs");
-const { updateUsers } = require("../../../services/updateUsers");
 const {
   removeRandomFromList,
 } = require("../../../helpers/removeRandomFromList");
@@ -56,7 +55,9 @@ exports.handler = async () => {
   }
 
   // update users if needed, based on the "chore-boy" role
-  const activeUsers = (await updateUsers(client)).filter((u) => !u.inactive);
+  const activeUsers = (await services.user.updateUsers(client)).filter(
+    (u) => !u.inactive
+  );
 
   // duplicate users list to list named reviewers
   const reviewers = activeUsers;
