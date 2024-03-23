@@ -4,11 +4,13 @@ const {
   ScanCommand,
   GetItemCommand,
   BatchWriteItemCommand,
+  PutItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 const { db } = require(".");
 const {
   DynamoDBDocumentClient,
   BatchWriteCommand,
+  PutCommand,
 } = require("@aws-sdk/lib-dynamodb");
 
 const dbMock = mockClient(DynamoDBClient);
@@ -69,8 +71,11 @@ describe("db", () => {
   });
 
   describe("batchWrite", () => {
-    test("it no items are given, no commands should be issued", async () => {
-      //   documentMock.on(GetItemCommand).resolves({});
+    test("if no items is given, no commands should be issued", async () => {
+      await db.batchWrite("test");
+      expect(documentMock.calls.length).toBe(0);
+    });
+    test("if an empty array is given, no commands should be issued", async () => {
       await db.batchWrite("test", []);
       expect(documentMock.calls.length).toBe(0);
     });
@@ -80,11 +85,29 @@ describe("db", () => {
       expect(documentMock.send.called).toBeTruthy();
     });
     test("if write errors, the function should return the error", async () => {
-      //   documentMock.on(BatchWriteItemCommand).rejects("error");
-      documentMock.rejects("error");
+      documentMock.on(BatchWriteItemCommand).rejects("error");
 
-      //   const res = await ;
-      expect(() => db.batchWrite("test", [{ item: "test" }])).toThrow("error");
+      const res = db.batchWrite("test", [{ item: "test" }]);
+      await expect(res).rejects.toEqual(new Error("error"));
+    });
+  });
+
+  describe("put", () => {
+    test("if no item is given, no calls should be made", async () => {
+      await db.put("test");
+      expect(documentMock.calls.length).toBe(0);
+    });
+    test("if an item is given, put should be called", async () => {
+      documentMock.on(PutItemCommand).resolves({});
+      await db.put("test", { item: "test" });
+      expect(documentMock.send.called).toBeTruthy();
+    });
+    test("if write errors, the function should return the error", async () => {
+      documentMock.on(PutItemCommand).rejects("error");
+
+      await expect(db.put("test", { item: "test" })).rejects.toEqual(
+        new Error("error")
+      );
     });
   });
 });

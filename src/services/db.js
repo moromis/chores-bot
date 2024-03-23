@@ -16,6 +16,7 @@ const dynamo = DynamoDBDocumentClient.from(client);
 // NOTE: these methods return promises
 
 const put = (tableId, item) => {
+  if (!item) return;
   return dynamo.send(
     new PutItemCommand({
       TableName: tableId,
@@ -25,6 +26,7 @@ const put = (tableId, item) => {
 };
 
 const batchWrite = async function (tableId, items) {
+  if (!items) return;
   const marshalledItems = items.map((x) => {
     const marshalled = marshall(x);
     return Object.assign({ PutRequest: { Item: marshalled } });
@@ -44,7 +46,7 @@ const batchWrite = async function (tableId, items) {
         RequestItems: requestItems,
       };
 
-      dynamo.send(new BatchWriteItemCommand(params));
+      await dynamo.send(new BatchWriteItemCommand(params));
     })
   );
 };
