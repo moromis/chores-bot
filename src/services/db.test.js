@@ -7,20 +7,10 @@ const {
   PutItemCommand,
 } = require("@aws-sdk/client-dynamodb");
 const { db } = require(".");
-const {
-  DynamoDBDocumentClient,
-  BatchWriteCommand,
-  PutCommand,
-} = require("@aws-sdk/lib-dynamodb");
+const { DynamoDBDocumentClient } = require("@aws-sdk/lib-dynamodb");
 
 const dbMock = mockClient(DynamoDBClient);
 const documentMock = mockClient(DynamoDBDocumentClient);
-// documentMock.
-// dbMock.on(ScanCommand).resolves({
-//     Items: {
-//         id: { S: "test" }
-//     }
-// });
 
 describe("db", () => {
   beforeEach(() => {
