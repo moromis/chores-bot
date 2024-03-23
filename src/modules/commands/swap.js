@@ -20,8 +20,8 @@ const data = {
 const _action = async (body) => {
   const userId = body.member.user.id;
 
-  const user = getUser(userId);
-  const oldChore = getChore(user.currentChore);
+  const user = await getUser(userId);
+  const oldChore = await getChore(user.currentChore);
   let newChore;
   if (!oldChore) {
     return {
@@ -32,18 +32,23 @@ const _action = async (body) => {
     newChore = removeRandomFromList(choresToPickFrom);
 
     if (newChore) {
+      newChore = {
+        ...newChore,
+        user: oldChore.user,
+        reviewer: oldChore.reviewer,
+        status: CHORE_STATES.ASSIGNED,
+      };
       await db.batchWrite(TABLES.CHORES, [
-        {
-          ...newChore,
-          user: oldChore.user,
-          reviewer: oldChore.reviewer,
-          status: CHORE_STATES.ASSIGNED,
-        },
+        newChore,
         {
           ..._.omit(oldChore, ["user", "reviewer"]),
           status: CHORE_STATES.TODO,
         },
       ]);
+      await db.put(TABLES.USERS, {
+        ...user,
+        currentChore: newChore.id,
+      });
     }
   }
 
@@ -68,4 +73,5 @@ function handler(event) {
 module.exports = {
   data,
   handler,
+  _action,
 };

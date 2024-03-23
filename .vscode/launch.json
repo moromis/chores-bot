@@ -53,6 +53,16 @@
             ],
             "program": "${workspaceFolder}/src/modules/debug-commands/debug-assign.js",
             "envFile": "${workspaceFolder}/.dev.env",
+        },
+        {
+            "type": "node",
+            "request": "launch",
+            "name": "Debug swap",
+            "skipFiles": [
+                "<node_internals>/**"
+            ],
+            "program": "${workspaceFolder}/src/modules/debug-commands/debug-swap.js",
+            "envFile": "${workspaceFolder}/.dev.env",
         }
     ]
 }

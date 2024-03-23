@@ -160,6 +160,8 @@ Resources:
         - AWSLambdaBasicExecutionRole
         - DynamoDBCrudPolicy:
             TableName: !Ref ChoresTable
+        - DynamoDBCrudPolicy:
+            TableName: !Ref UsersTable
       Events:
         SNSEvent:
           Type: SNS
