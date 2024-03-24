@@ -1,0 +1,30 @@
+{
+    "env": {
+        "browser": true,
+        "commonjs": true,
+        "es2021": true
+    },
+    "extends": [
+        "google",
+        "plugin:require-path-exists/recommended"
+    ],
+    "plugins": [
+        "require-path-exists"
+    ],
+    "parserOptions": {
+        "ecmaVersion": "latest"
+    },
+    "ignorePatterns": [
+        "**/*.test.js",
+        "yarn.lock",
+        "package.json",
+        "db-experiment"
+    ],
+    "rules": {
+        "require-jsdoc": "off",
+        "quotes": [
+            "error",
+            "double"
+        ]
+    }
+}

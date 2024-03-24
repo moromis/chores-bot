@@ -12,7 +12,8 @@
         "@types/jest": "^29.5.12",
         "aws-sdk-client-mock": "^3.0.1",
         "aws-sdk-client-mock-jest": "^4.0.0",
-        "eslint": "^8.57.0",
+        "eslint": ">=5.16.0",
+        "eslint-config-google": "^0.14.0",
         "jest": "^29.7.0",
         "make-coverage-badge": "^1.2.0",
         "recursive-install": "^1.4.0"
@@ -36,6 +37,7 @@
         "dev:setup-iam": "export AWS_PROFILE=cb-dev && cd setup/iam_user && ./setup_iam_user_and_policy.sh",
         "setup": "yarn generate-template",
         "dev:setup": "export AWS_PROFILE=cb-dev && yarn generate-template",
-        "install-deps": "yarn && node scripts/recursive-install-yarn.js --rootDir=src"
+        "install-deps": "yarn && node scripts/recursive-install-yarn.js --rootDir=src",
+        "lint": "eslint \"src/**\""
     }
 }
