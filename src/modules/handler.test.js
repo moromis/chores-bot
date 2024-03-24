@@ -1,5 +1,5 @@
 const axios = require("axios").default;
-const globalHandler = require("./handler").globalHandler;
+const globalHandler = require("./handler");
 
 // Mock out all top level functions, such as get, put, delete and post:
 jest.mock("axios");

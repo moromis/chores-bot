@@ -3,7 +3,7 @@ const services = require("../../services");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
 const { Client, GatewayIntentBits } = require("discord.js");
 
-const globalHandler = require("../handler.js").globalHandler;
+const globalHandler = require("../handler.js");
 
 const data = {
   name: "chore",

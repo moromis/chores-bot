@@ -5,7 +5,7 @@ const _ = require("lodash");
 const { Client, GatewayIntentBits } = require("discord.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
 
-const globalHandler = require("../handler.js").globalHandler;
+const globalHandler = require("../handler.js");
 const db = require("../../services").db;
 
 const data = {

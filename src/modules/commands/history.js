@@ -1,5 +1,6 @@
 const services = require("../../services");
-const globalHandler = require("../handler.js").globalHandler;
+const globalHandler = require("../handler.js");
+const { printHistory } = require("./printHistory.js");
 
 const data = {
   name: "history",
@@ -9,12 +10,12 @@ const data = {
 
 const _action = async () => {
   const allUsers = await services.getAllUsers();
-  const allScores = allUsers
-    .sort((u1, u2) => u2.numAllTimeChores - u1.numAllTimeChores)
-    .map((u) => `${u.displayName}: ${u.numAllTimeChores}`);
+  const sortedUsers = allUsers.sort(
+    (u1, u2) => u2.numAllTimeChores - u1.numAllTimeChores,
+  );
 
   const response = {
-    content: `## History\n${allScores.join("\n")}`,
+    content: printHistory(sortedUsers),
   };
 
   return response;

@@ -8,7 +8,7 @@ const {
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
 const { Client, GatewayIntentBits } = require("discord.js");
 
-const globalHandler = require("../handler.js").globalHandler;
+const globalHandler = require("../handler.js");
 const db = require("../../services/index.js").db;
 
 const data = {

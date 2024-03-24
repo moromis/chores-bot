@@ -1,5 +1,6 @@
 const services = require("../../services");
-const globalHandler = require("../handler.js").globalHandler;
+const globalHandler = require("../handler.js");
+const { printMonthlyScoreboard } = require("./printMonthlyScoreboard.js");
 
 const data = {
   name: "scoreboard",
@@ -9,12 +10,12 @@ const data = {
 
 const _action = async () => {
   const allUsers = await services.getAllUsers();
-  const allScores = allUsers
-    .sort((u1, u2) => u2.numCycleChores - u1.numCycleChores)
-    .map((u) => `${u.displayName}: ${u.numCycleChores}`);
+  const sortedUsers = allUsers.sort(
+    (u1, u2) => u2.numCycleChores - u1.numCycleChores,
+  );
 
   const response = {
-    content: `## Monthly Scoreboard\n${allScores.join("\n")}`,
+    content: printMonthlyScoreboard(sortedUsers),
   };
 
   return response;

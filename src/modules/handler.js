@@ -28,6 +28,4 @@ async function globalHandler(event, action) {
   }
 }
 
-module.exports = {
-  globalHandler,
-};
+module.exports = globalHandler;
