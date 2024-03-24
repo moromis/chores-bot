@@ -30,7 +30,8 @@ Make sure to slide the slider for your Discord bot under `Bot > Privileged Gatew
 9. Run `yarn setup-scheduler`
 10. Deploy with `yarn deploy`
 11. Upload the initial chores data with `yarn upload-chores-list`
-12. There will now be daily, weekly, and monthly scheduled jobs that will take care of all chore assignments etc., and slash commands will be registered in your Discord guild
+12. Create a role in your Discord called `chore-boy` and assign it to each user that will be part of the chore rotation
+13. There will now be daily, weekly, and monthly scheduled jobs that will take care of all chore assignments etc., and slash commands will be registered in your Discord guild
 
 
 ## Features
