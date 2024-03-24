@@ -9,7 +9,7 @@ const DynamoDBDocumentClient =
   require("@aws-sdk/lib-dynamodb").DynamoDBDocumentClient;
 const { marshall, unmarshall } = require("@aws-sdk/util-dynamodb");
 
-const REGION = "us-east-2"; //e.g. "us-east-1"
+const REGION = "us-east-2"; // e.g. "us-east-1"
 const client = new DynamoDBClient({ region: REGION });
 const dynamo = DynamoDBDocumentClient.from(client);
 
@@ -21,7 +21,7 @@ const put = (tableId, item) => {
     new PutItemCommand({
       TableName: tableId,
       Item: marshall(item),
-    })
+    }),
   );
 };
 
@@ -47,7 +47,7 @@ const batchWrite = async function (tableId, items) {
       };
 
       await dynamo.send(new BatchWriteItemCommand(params));
-    })
+    }),
   );
 };
 
@@ -64,7 +64,7 @@ const getItem = async (tableId, itemId) => {
       Key: {
         id: { S: `${itemId}` },
       },
-    })
+    }),
   );
   const item = res?.["Item"];
   return item ? unmarshall(item) : null;

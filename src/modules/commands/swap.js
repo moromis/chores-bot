@@ -25,7 +25,7 @@ const _action = async (body) => {
   let newChore;
   if (!oldChore) {
     return {
-      content: `You don't have an assigned chore right now. Type \`/assign\``,
+      content: "You don't have an assigned chore right now. Type `/assign`",
     };
   } else {
     const choresToPickFrom = await getTodoChores();
@@ -59,7 +59,7 @@ const _action = async (body) => {
     };
   } else {
     response = {
-      content: `Failed to swap for a new chore.`,
+      content: "Failed to swap for a new chore.",
     };
   }
 

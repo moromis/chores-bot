@@ -12,10 +12,10 @@ exports.handler = async () => {
 
   // update users if needed, based on the "chore-boy" role
   const activeUsers = (await services.user.updateUsers(client)).filter(
-    (u) => !u.inactive
+    (u) => !u.inactive,
   );
   const scores = activeUsers.sort(
-    (u1, u2) => u2.numCycleChores - u1.numCycleChores
+    (u1, u2) => u2.numCycleChores - u1.numCycleChores,
   );
 
   if (scores.length > 0) {
@@ -28,7 +28,7 @@ exports.handler = async () => {
         lowestScoring.numCycleChores
       } chores this month. Here's how everyone did:\n${scores
         .map((u) => `${u.displayName}: ${u.numCycleChores}`)
-        .join("\n")}`
+        .join("\n")}`,
     );
   }
 
@@ -37,7 +37,7 @@ exports.handler = async () => {
     activeUsers.map((user) => ({
       ...user,
       numCycleChores: 0,
-    }))
+    })),
   );
 
   // IMPORTANT: destroy the discord.js client, otherwise the application hangs

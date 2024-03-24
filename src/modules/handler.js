@@ -11,7 +11,7 @@ async function globalHandler(event, action) {
   if (response.delete) {
     axios
       .delete(
-        `https://discord.com/api/v10/webhooks/${body.application_id}/${body.token}/messages/@original`
+        `https://discord.com/api/v10/webhooks/${body.application_id}/${body.token}/messages/@original`,
       )
       .catch(function (error) {
         console.log(error);
@@ -20,7 +20,7 @@ async function globalHandler(event, action) {
     axios
       .patch(
         `https://discord.com/api/v10/webhooks/${body.application_id}/${body.token}/messages/@original`,
-        response
+        response,
       )
       .catch(function (error) {
         console.log(error);

@@ -6,7 +6,8 @@
     },
     "extends": [
         "google",
-        "plugin:require-path-exists/recommended"
+        "plugin:require-path-exists/recommended",
+        "plugin:prettier/recommended"
     ],
     "plugins": [
         "require-path-exists"

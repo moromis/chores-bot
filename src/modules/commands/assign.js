@@ -6,7 +6,6 @@ const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
-const { user } = require("../../services");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const globalHandler = require("../handler.js").globalHandler;
@@ -33,7 +32,8 @@ const _action = async (body) => {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs
     await client.destroy();
     return {
-      content: `You already have a chore. Use \`/swap\` if you want a different one, or use \`/chore\` to see what your current chore is.`,
+      content:
+        "You already have a chore. Use `/swap` if you want a different one, or use `/chore` to see what your current chore is.",
     };
   }
 
@@ -52,14 +52,14 @@ const _action = async (body) => {
     .filter((c) => c.hasOwnProperty("reviewer"))
     .map((c) => c.reviewer.id);
   const potentialReviewers = allUsers.filter(
-    (u) => !currentReviewers.includes(u.id) && u.id !== user.id
+    (u) => !currentReviewers.includes(u.id) && u.id !== user.id,
   );
 
   if (potentialReviewers.length == 0) {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs
     await client.destroy();
     return {
-      content: `Something's wrong and we couldn't find a reviewer for you.`,
+      content: "Something's wrong and we couldn't find a reviewer for you.",
     };
   }
 
@@ -86,7 +86,7 @@ const _action = async (body) => {
     };
   } else {
     response = {
-      content: `Failed to assign a chore.`,
+      content: "Failed to assign a chore.",
     };
   }
 

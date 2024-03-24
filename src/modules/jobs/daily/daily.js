@@ -30,9 +30,9 @@ exports.handler = async () => {
         await services.dmUser(
           client,
           user.id,
-          getDMReminderMessage(days, chore)
+          getDMReminderMessage(days, chore),
         );
-      })
+      }),
   );
   // IMPORTANT: destroy the discord.js client, otherwise the application hangs
   await client.destroy();

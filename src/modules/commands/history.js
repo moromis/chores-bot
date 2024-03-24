@@ -13,7 +13,7 @@ const _action = async () => {
     .sort((u1, u2) => u2.numAllTimeChores - u1.numAllTimeChores)
     .map((u) => `${u.displayName}: ${u.numAllTimeChores}`);
 
-  let response = {
+  const response = {
     content: `## History\n${allScores.join("\n")}`,
   };
 

@@ -4,7 +4,6 @@ const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const globalHandler = require("../handler.js").globalHandler;
-const db = require("../../services/index.js").db;
 
 const data = {
   name: "chore",
@@ -31,7 +30,7 @@ const _action = async (body) => {
     await services.dmUser(
       client,
       user.id,
-      `Your current chore is\n${getChoreMessage(chore)}`
+      `Your current chore is\n${getChoreMessage(chore)}`,
     );
   } else {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs
