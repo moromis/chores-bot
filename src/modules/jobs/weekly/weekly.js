@@ -70,7 +70,8 @@ exports.handler = async () => {
 
   // if the length of the unassigned chores list is 0, move all complete chores to unassigned
   if (unassignedChores.length === 0) {
-    // TODO: big deal here! celebrate all chores being done!
+    // TODO: big deal here! celebrate all chores being done! (should probably abstract to helper method
+    // since we do this in more than one place)
     await services.unassignCompletedChores();
     unassignedChores = await services.getTodoChores();
   }
@@ -96,6 +97,9 @@ exports.handler = async () => {
         usersToWrite.push({
           ...user,
           currentChore: selectedChore.id,
+          ...(user.extraPointage
+            ? { numCycleChores: user.numCycleChores + user.extraPointage }
+            : {}),
         });
         const choreToAssign = {
           ...selectedChore,

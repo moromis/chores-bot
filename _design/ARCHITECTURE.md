@@ -24,6 +24,10 @@ users
         numCycleChores
         numAllTimeChores
         inactive
+        extraPointage
+            ↖_ this is just an arbitrary metric that tells the bot how many extra points to award a user each week, depending on
+                your particular use case. ours is that particular people take out and bring in garbage and recycling, and only they
+                do so each week. thus they get an extra point every week.
         * currentChore (-> chores)
 
 chores

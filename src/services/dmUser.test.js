@@ -20,7 +20,6 @@ describe("dmUser", () => {
     dmUser(testClient(fetchSpyHuman), undefined, "test");
     expect(fetchSpyHuman).not.toHaveBeenCalled();
     expect(fetchSpyHuman).not.toHaveBeenCalled();
-    // fetch.mockClear();
   });
 
   it("should fetch users given a userId", () => {

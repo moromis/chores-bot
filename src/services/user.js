@@ -1,6 +1,6 @@
 const db = require("./db");
 const TABLES = require("../constants/tables").TABLES;
-const { CHORE_ROLE } = require("../constants/roles");
+const { CHORE_ROLE, GARBAGE_ROLE } = require("../constants/roles");
 const services = require(".");
 const _ = require("lodash");
 
@@ -14,10 +14,18 @@ const updateUsers = async (client) => {
   const members = await guild.members.fetch({ force: true });
   const currentUserList = members
     .filter((m) => {
-      return m.roles.cache.find((r) => r.name === CHORE_ROLE);
+      return m.roles.cache.find(
+        (r) => r.name === CHORE_ROLE || r.name === GARBAGE_ROLE
+      );
     })
     .map((u) => {
-      return { id: u.id, displayName: u.displayName };
+      return {
+        id: u.id,
+        displayName: u.displayName,
+        ...(u.roles.cache.find((r) => r.name === GARBAGE_ROLE)
+          ? { extraPointage: 1 }
+          : {}),
+      };
     });
   const currentUserIds = currentUserList.map((u) => u.id);
 
