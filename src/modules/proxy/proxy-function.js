@@ -18,7 +18,7 @@ async function handler(event) {
     const isVerified = tweetnacl.sign.detached.verify(
       Buffer.from(timestamp + strBody),
       Buffer.from(signature, "hex"),
-      Buffer.from(PUBLIC_KEY, "hex")
+      Buffer.from(PUBLIC_KEY, "hex"),
     );
 
     if (!isVerified) {
@@ -42,8 +42,8 @@ async function handler(event) {
   // Handle command (send to SNS and split to one of Lambdas)
   if (body.data.name) {
     console.log(body.data.name);
-    var eventText = JSON.stringify(body, null, 2);
-    var params = {
+    const eventText = JSON.stringify(body, null, 2);
+    const params = {
       Message: eventText,
       Subject: "Test SNS From Lambda",
       TopicArn: process.env.TOPIC_ARN,

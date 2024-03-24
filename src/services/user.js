@@ -15,7 +15,7 @@ const updateUsers = async (client) => {
   const currentUserList = members
     .filter((m) => {
       return m.roles.cache.find(
-        (r) => r.name === CHORE_ROLE || r.name === GARBAGE_ROLE
+        (r) => r.name === CHORE_ROLE || r.name === GARBAGE_ROLE,
       );
     })
     .map((u) => {
@@ -30,7 +30,7 @@ const updateUsers = async (client) => {
   const currentUserIds = currentUserList.map((u) => u.id);
 
   // get all users
-  let dbUserList = await getAllUsers();
+  const dbUserList = await getAllUsers();
   // new users are ones that are in the current collection but weren't in the DB
   const newUsers = _.differenceBy(currentUserList, dbUserList, "id");
   // users that are now inactive are ones that were in the DB but aren't in our current list

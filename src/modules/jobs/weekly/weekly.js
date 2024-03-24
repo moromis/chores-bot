@@ -22,7 +22,7 @@ exports.handler = async () => {
   const date = dayjs().format("DD/MM/YYYY");
   await services.messageChoresChannel(
     client,
-    `# ${date}\n## Your time to do your chores is up! Let's see how we did.`
+    `# ${date}\n## Your time to do your chores is up! Let's see how we did.`,
   );
 
   // get all incomplete chores
@@ -38,14 +38,14 @@ exports.handler = async () => {
         const { displayName, user } = chore;
         await services.messageChoresChannel(
           client,
-          `<@${user}> didn't finish their chore this week (${displayName})`
+          `<@${user}> didn't finish their chore this week (${displayName})`,
         );
-      })
+      }),
     );
   } else {
     await services.messageChoresChannel(
       client,
-      `### Everyone finished their chore! Yahoo!!`
+      "### Everyone finished their chore! Yahoo!!",
     );
   }
 
@@ -56,7 +56,7 @@ exports.handler = async () => {
 
   // update users if needed, based on the "chore-boy" role
   const activeUsers = (await services.user.updateUsers(client)).filter(
-    (u) => !u.inactive
+    (u) => !u.inactive,
   );
 
   // duplicate users list to list named reviewers
@@ -110,7 +110,7 @@ exports.handler = async () => {
         // add chore to assignedChores list
         assignedChores.push(choreToAssign);
       }
-    })
+    }),
   );
 
   // after loop: iterate over assignedChores (Promise.all) and send message for each to channel @ing user with their new chore,
@@ -121,9 +121,9 @@ exports.handler = async () => {
     assignedChores.map(async (chore) => {
       await services.messageChoresChannel(
         client,
-        `**<@${chore.user}>**\n${getChoreMessage(chore)}`
+        `**<@${chore.user}>**\n${getChoreMessage(chore)}`,
       );
-    })
+    }),
   );
 
   // write all the new data to the db

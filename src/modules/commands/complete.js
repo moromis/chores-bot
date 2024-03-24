@@ -42,7 +42,7 @@ const _action = async (body) => {
     });
   } else {
     return {
-      content: `You don't have an assigned chore right now. Type \`/assign\``,
+      content: "You don't have an assigned chore right now. Type `/assign`",
     };
   }
 
@@ -50,8 +50,8 @@ const _action = async (body) => {
     client,
     chore.reviewer,
     `<@${userId}> is done with their chore. You're their reviewer, so please check their work.\n${getChoreMessage(
-      chore
-    )}`
+      chore,
+    )}`,
   );
 
   await client.destroy();
