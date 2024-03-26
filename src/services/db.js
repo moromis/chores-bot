@@ -39,7 +39,7 @@ const batchWrite = async function (tableId, items) {
 
   return Promise.all(
     batches.map(async (batch) => {
-      requestItems = {};
+      const requestItems = {};
       requestItems[tableId] = batch;
 
       const params = {

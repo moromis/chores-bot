@@ -4,7 +4,7 @@ const getIncompleteChores = require("./getChores").getIncompleteChores;
 const getTodoChores = require("./getChores").getTodoChores;
 const db = require("./db");
 const dmUser = require("./dmUser").dmUser;
-const user = require("./user");
+const { getAllUsers, getUser, updateUsers } = require("./user");
 const messageChoresChannel =
   require("./messageChoresChannel").messageChoresChannel;
 const unassignChores = require("./unassignChores").unassignChores;
@@ -21,5 +21,7 @@ module.exports = {
   messageChoresChannel,
   db,
   unassignCompletedChores,
-  user,
+  getAllUsers,
+  getUser,
+  updateUsers,
 };

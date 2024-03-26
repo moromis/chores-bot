@@ -55,7 +55,7 @@ exports.handler = async () => {
   }
 
   // update users if needed, based on the "chore-boy" role
-  const activeUsers = (await services.user.updateUsers(client)).filter(
+  const activeUsers = (await services.updateUsers(client)).filter(
     (u) => !u.inactive,
   );
 

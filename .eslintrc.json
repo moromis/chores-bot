@@ -1,5 +1,6 @@
 {
     "env": {
+        "node": true,
         "browser": true,
         "commonjs": true,
         "es2021": true
@@ -26,6 +27,8 @@
         "quotes": [
             "error",
             "double"
-        ]
+        ],
+        "comma-dangle": "off",
+        "no-undef": "error"
     }
 }

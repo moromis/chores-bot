@@ -1,11 +1,9 @@
 const { CHORE_STATES } = require("../../constants/chores.js");
 const { TABLES } = require("../../constants/tables.js");
-const { dmUser } = require("../../services/dmUser.js");
-const { getChore } = require("../../services/getChores.js");
+const services = require("../../services");
 const _ = require("lodash");
 const { Client, GatewayIntentBits } = require("discord.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
-const { getUser } = require("../../services/user.js");
 
 const globalHandler = require("../handler.js").globalHandler;
 const db = require("../../services").db;
@@ -28,8 +26,8 @@ const _action = async (body) => {
 
   // const allChores = await getAllChores();
   // const chore = allChores.find((c) => c?.user?.id === userId);
-  const user = await getUser(userId);
-  const chore = await getChore(user.currentChore);
+  const user = await services.getUser(userId);
+  const chore = await services.getChore(user.currentChore);
   if (chore) {
     await db.put(TABLES.CHORES, {
       ..._.omit(chore, ["user", "reviewer"]),
@@ -46,7 +44,7 @@ const _action = async (body) => {
     };
   }
 
-  await dmUser(
+  await services.dmUser(
     client,
     chore.reviewer,
     `<@${userId}> is done with their chore. You're their reviewer, so please check their work.\n${getChoreMessage(

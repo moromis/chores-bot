@@ -26,7 +26,7 @@ const _action = async (body) => {
   await client.login(process.env.BOT_TOKEN);
 
   const userId = body.member.user.id;
-  const allUsers = await user.updateUsers(client); // TODO: maybe we should actually only update users in weekly and maybe monthly?
+  const allUsers = await services.updateUsers(client); // TODO: maybe we should actually only update users in weekly and maybe monthly?
   const user = allUsers.find((u) => u.id === userId);
   if (user.hasOwnProperty("currentChore")) {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs

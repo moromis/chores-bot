@@ -1,4 +1,4 @@
-const { user } = require("../../services");
+const services = require("../../services");
 const globalHandler = require("../handler.js").globalHandler;
 
 const data = {
@@ -8,7 +8,7 @@ const data = {
 };
 
 const _action = async () => {
-  const allUsers = await user.getAllUsers();
+  const allUsers = await services.getAllUsers();
   const allScores = allUsers
     .sort((u1, u2) => u2.numCycleChores - u1.numCycleChores)
     .map((u) => `${u.displayName}: ${u.numCycleChores}`);

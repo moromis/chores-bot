@@ -1,12 +1,11 @@
 const { CHORE_STATES } = require("../../constants/chores.js");
 const { TABLES } = require("../../constants/tables.js");
-const { getTodoChores, getChore } = require("../../services/getChores.js");
+const services = require("../../services");
 const _ = require("lodash");
 const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
-const { getUser } = require("../../services/user.js");
 
 const globalHandler = require("../handler.js").globalHandler;
 const db = require("../../services").db;
@@ -20,15 +19,15 @@ const data = {
 const _action = async (body) => {
   const userId = body.member.user.id;
 
-  const user = await getUser(userId);
-  const oldChore = await getChore(user.currentChore);
+  const user = await services.getUser(userId);
+  const oldChore = await services.getChore(user.currentChore);
   let newChore;
   if (!oldChore) {
     return {
       content: "You don't have an assigned chore right now. Type `/assign`",
     };
   } else {
-    const choresToPickFrom = await getTodoChores();
+    const choresToPickFrom = await services.getTodoChores();
     newChore = removeRandomFromList(choresToPickFrom);
 
     if (newChore) {
