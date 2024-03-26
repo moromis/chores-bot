@@ -4,7 +4,9 @@ dayjs.extend(weekday);
 const CHORE_STATES = require("../../../constants/chores").CHORE_STATES;
 const services = require("../../../services");
 const { Client, GatewayIntentBits } = require("discord.js");
-const { getDMReminderMessage } = require("./getDMReminderMessage");
+const {
+  getDMReminderMessage,
+} = require("../../../helpers/getDMReminderMessage");
 
 exports.handler = async () => {
   // Create a new client instance
@@ -27,6 +29,12 @@ exports.handler = async () => {
         const now = dayjs();
         const days = nextSunday.diff(now, "days");
 
+        console.log(
+          "going to remind ",
+          user.displayName,
+          " about their chore: ",
+          chore,
+        );
         await services.dmUser(client, user, getDMReminderMessage(days, chore));
       }),
   );

@@ -1,4 +1,4 @@
-const { getChoreMessage } = require("../../../helpers/getChoreMessage");
+const { getChoreMessage } = require("./getChoreMessage");
 
 exports.getDMReminderMessage = (days, chore) => {
   let timeString = `you have ${days} ${days === 1 ? "day" : "days"}`;
