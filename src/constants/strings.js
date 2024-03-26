@@ -5,6 +5,8 @@ const NO_REVIEWERS =
 const UNABLE_TO_ASSIGN_CHORE = "Failed to assign a chore.";
 const NO_ASSIGNED_CHORE =
   "You don't have an assigned chore right now. Type `/assign`";
+const MAYBE_NO_CHORE =
+  "Couldn't find your chore. Maybe you need to do `/assign`?";
 const SWAP_FAILED = "Failed to swap for a new chore.";
 
 const strings = {
@@ -13,6 +15,7 @@ const strings = {
   UNABLE_TO_ASSIGN_CHORE,
   NO_ASSIGNED_CHORE,
   SWAP_FAILED,
+  MAYBE_NO_CHORE,
 };
 
 module.exports = strings;
