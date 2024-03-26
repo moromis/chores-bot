@@ -1,9 +1,9 @@
-const { data, handler, _action } = require("./chore");
+const { data, handler, _action } = require("./swap");
 const globalHandler = require("../handler");
 
 jest.mock("../handler", () => jest.fn(() => {}));
 
-describe("chore", () => {
+describe("swap", () => {
   test("the data should have type === 1, and should have a name and description", () => {
     expect(data).toHaveProperty("type");
     expect(data.type).toBe(1);
