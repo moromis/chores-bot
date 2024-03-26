@@ -40,4 +40,4 @@ Make sure to slide the slider for your Discord bot under `Bot > Privileged Gatew
 - SAM stack, uses CloudFormation to setup app based on template yaml
 - Automatic new chore assignments weekly
 - Automatic chore reminders daily
-- Easy new chore additions
+- Easy new chore additions (in progress)
