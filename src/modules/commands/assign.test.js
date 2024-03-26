@@ -8,15 +8,7 @@ const { CHORE_STATES } = require("../../constants/chores");
 const { testUsers, testChores, getTestBody } = require("../../test/structs");
 
 jest.mock("../handler", () => jest.fn(() => {}));
-jest.mock("../../services", () => ({
-  getTodoChores: jest.fn(),
-  getIncompleteChores: jest.fn(),
-  unassignCompletedChores: jest.fn(),
-  updateUsers: jest.fn(),
-  db: {
-    put: jest.fn(() => {}),
-  },
-}));
+jest.mock("../../services");
 jest.mock("discord.js", () => ({
   Client: jest.fn().mockImplementation(() => ({
     login: jest.fn(() => {}),
@@ -27,9 +19,7 @@ jest.mock("discord.js", () => ({
     GuildMembers: "guild-members",
   },
 }));
-jest.mock("../../helpers/getChoreMessage", () => ({
-  getChoreMessage: jest.fn(),
-}));
+jest.mock("../../helpers/getChoreMessage");
 
 describe("assign", () => {
   beforeAll(() => {
