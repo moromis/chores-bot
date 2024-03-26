@@ -35,6 +35,7 @@
     "test:watch": "jest --watchAll src",
     "test:coverage": "yarn test --silent --config jest.config.json --no-cache",
     "test:badge": "yarn test:coverage && yarn make-coverage-badge --output-path ./cov-badge.svg",
+    "test:make-badge": "yarn make-coverage-badge --output-path ./cov-badge.svg",
     "generate-template": "cd setup/generate_template && yarn && node generate_template.js",
     "setup-scheduler": "cd setup/scheduler && ./setup_scheduler.sh",
     "dev:setup-scheduler": "export AWS_PROFILE=cb-dev && export DEV=true && cd setup/scheduler && ./setup_scheduler.sh",

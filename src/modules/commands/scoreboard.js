@@ -1,4 +1,4 @@
-const services = require("../../services");
+const services = require("../../services/index.js");
 const globalHandler = require("../handler.js");
 const { printMonthlyScoreboard } = require("./printMonthlyScoreboard.js");
 

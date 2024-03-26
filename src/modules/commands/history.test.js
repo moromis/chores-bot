@@ -17,9 +17,7 @@ const sortedUsers = [
 ];
 
 jest.mock("../../services", () => ({
-  user: {
-    getAllUsers: () => users,
-  },
+  getAllUsers: () => users,
 }));
 
 describe("history", () => {

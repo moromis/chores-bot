@@ -1,7 +1,6 @@
 const { CHORE_STATES } = require("../../constants/chores.js");
 const { TABLES } = require("../../constants/tables.js");
 const services = require("../../services");
-const _ = require("lodash");
 const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
@@ -9,6 +8,7 @@ const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
 const { Client, GatewayIntentBits } = require("discord.js");
 
 const globalHandler = require("../handler.js");
+const strings = require("../../constants/strings.js");
 const db = require("../../services/index.js").db;
 
 const data = {
@@ -32,8 +32,7 @@ const _action = async (body) => {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs
     await client.destroy();
     return {
-      content:
-        "You already have a chore. Use `/swap` if you want a different one, or use `/chore` to see what your current chore is.",
+      content: strings.USER_HAS_CHORE,
     };
   }
 
@@ -50,7 +49,7 @@ const _action = async (body) => {
   const assignedChores = await services.getIncompleteChores();
   const currentReviewers = assignedChores
     .filter((c) => c.hasOwnProperty("reviewer"))
-    .map((c) => c.reviewer.id);
+    .map((c) => c.reviewer);
   const potentialReviewers = allUsers.filter(
     (u) => !currentReviewers.includes(u.id) && u.id !== user.id,
   );
@@ -59,16 +58,16 @@ const _action = async (body) => {
     // IMPORTANT: destroy the discord.js client, otherwise the application hangs
     await client.destroy();
     return {
-      content: "Something's wrong and we couldn't find a reviewer for you.",
+      content: strings.NO_REVIEWERS,
     };
   }
 
-  const reviewer = _.cloneDeep(removeRandomFromList(potentialReviewers));
+  const reviewer = removeRandomFromList(potentialReviewers);
   if (newChore) {
     newChore = {
       ...newChore,
-      user: user.id,
-      reviewer: reviewer.id,
+      user: user,
+      reviewer: reviewer,
       status: CHORE_STATES.ASSIGNED,
     };
     await db.put(TABLES.CHORES, newChore);
@@ -86,7 +85,7 @@ const _action = async (body) => {
     };
   } else {
     response = {
-      content: "Failed to assign a chore.",
+      content: strings.UNABLE_TO_ASSIGN_CHORE,
     };
   }
 
