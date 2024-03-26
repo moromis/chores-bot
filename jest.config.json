@@ -14,7 +14,8 @@
         "test.js",
         "debug.js",
         "constants",
-        ".aws-sam"
+        ".aws-sam",
+        "debug-commands"
     ],
     "coverageDirectory": "<rootDir>/../coverage/",
     "coverageReporters": [
