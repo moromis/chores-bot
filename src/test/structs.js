@@ -5,6 +5,13 @@ const testUsers = [
   { id: "4", displayName: "user4", numCycleChores: 6 },
 ];
 
+const testUsersSortedByScoreDesc = [
+  { id: "4", displayName: "user4", numCycleChores: 6 },
+  { id: "1", displayName: "user1", numCycleChores: 5, currentChore: "test3" },
+  { id: "3", displayName: "user3", numCycleChores: 4, currentChore: "test4" },
+  { id: "2", displayName: "user2", numCycleChores: 1 },
+];
+
 const testChores = {
   todoChores: [
     { id: "test", status: 0 },
@@ -33,5 +40,6 @@ const getTestBody = (userId) => ({
 module.exports = {
   testUsers,
   testChores,
+  testUsersSortedByScoreDesc,
   getTestBody,
 };
