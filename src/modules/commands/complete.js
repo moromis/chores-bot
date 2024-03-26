@@ -5,7 +5,9 @@ const _ = require("lodash");
 const { Client, GatewayIntentBits } = require("discord.js");
 const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
 
-const globalHandler = require("../handler.js").globalHandler;
+const globalHandler = require("../handler.js");
+const strings = require("../../constants/strings.js");
+const getChoreCompleteMessage = require("../../helpers/getChoreCompleteMessage.js");
 const db = require("../../services").db;
 
 const data = {
@@ -24,10 +26,8 @@ const _action = async (body) => {
 
   const userId = body.member.user.id;
 
-  // const allChores = await getAllChores();
-  // const chore = allChores.find((c) => c?.user?.id === userId);
   const user = await services.getUser(userId);
-  const chore = await services.getChore(user.currentChore);
+  const chore = await services.getChore(user?.currentChore);
   if (chore) {
     await db.put(TABLES.CHORES, {
       ..._.omit(chore, ["user", "reviewer"]),
@@ -39,8 +39,9 @@ const _action = async (body) => {
       numAllTimeChores: (user?.numAllTimeChores || 0) + 1,
     });
   } else {
+    await client.destroy();
     return {
-      content: "You don't have an assigned chore right now. Type `/assign`",
+      content: strings.NO_ASSIGNED_CHORE,
     };
   }
 
@@ -55,7 +56,7 @@ const _action = async (body) => {
   await client.destroy();
 
   return {
-    content: `<@${userId}> You completed your chore! :tada: Type \`/assign\` if you want another one.`,
+    content: getChoreCompleteMessage(userId),
   };
 };
 

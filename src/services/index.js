@@ -1,7 +1,10 @@
-const getAllChores = require("./getChores").getAllChores;
-const getCompletedChores = require("./getChores").getCompletedChores;
-const getIncompleteChores = require("./getChores").getIncompleteChores;
-const getTodoChores = require("./getChores").getTodoChores;
+const {
+  getIncompleteChores,
+  getChore,
+  getAllChores,
+  getCompletedChores,
+  getTodoChores,
+} = require("./getChores");
 const db = require("./db");
 const dmUser = require("./dmUser").dmUser;
 const { getAllUsers, getUser, updateUsers } = require("./user");
@@ -16,6 +19,7 @@ module.exports = {
   getIncompleteChores,
   getCompletedChores,
   getTodoChores,
+  getChore,
   unassignChores,
   dmUser,
   messageChoresChannel,

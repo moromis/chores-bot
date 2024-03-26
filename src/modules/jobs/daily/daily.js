@@ -27,11 +27,7 @@ exports.handler = async () => {
         const now = dayjs();
         const days = nextSunday.diff(now, "days");
 
-        await services.dmUser(
-          client,
-          user.id,
-          getDMReminderMessage(days, chore),
-        );
+        await services.dmUser(client, user, getDMReminderMessage(days, chore));
       }),
   );
   // IMPORTANT: destroy the discord.js client, otherwise the application hangs

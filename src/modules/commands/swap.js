@@ -5,9 +5,10 @@ const _ = require("lodash");
 const {
   removeRandomFromList,
 } = require("../../helpers/removeRandomFromList.js");
-const { getChoreMessage } = require("../../helpers/getChoreMessage.js");
+const getChoreAssignedMessage = require("../../helpers/getChoreAssignedMessage.js");
 
-const globalHandler = require("../handler.js").globalHandler;
+const globalHandler = require("../handler.js");
+const strings = require("../../constants/strings.js");
 const db = require("../../services").db;
 
 const data = {
@@ -24,7 +25,7 @@ const _action = async (body) => {
   let newChore;
   if (!oldChore) {
     return {
-      content: "You don't have an assigned chore right now. Type `/assign`",
+      content: strings.NO_ASSIGNED_CHORE,
     };
   } else {
     const choresToPickFrom = await services.getTodoChores();
@@ -37,6 +38,10 @@ const _action = async (body) => {
         reviewer: oldChore.reviewer,
         status: CHORE_STATES.ASSIGNED,
       };
+      await db.put(TABLES.USERS, {
+        ...user,
+        currentChore: newChore.id,
+      });
       await db.batchWrite(TABLES.CHORES, [
         newChore,
         {
@@ -44,21 +49,17 @@ const _action = async (body) => {
           status: CHORE_STATES.TODO,
         },
       ]);
-      await db.put(TABLES.USERS, {
-        ...user,
-        currentChore: newChore.id,
-      });
     }
   }
 
   let response;
   if (newChore) {
     response = {
-      content: `<@${userId}> Your new chore is\n${getChoreMessage(newChore)}`,
+      content: getChoreAssignedMessage(userId, newChore),
     };
   } else {
     response = {
-      content: "Failed to swap for a new chore.",
+      content: strings.SWAP_FAILED,
     };
   }
 

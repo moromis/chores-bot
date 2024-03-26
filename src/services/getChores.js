@@ -11,6 +11,7 @@ const _getChoresByState = async (state) => {
 };
 
 const getChore = async (choreId) => {
+  if (!choreId) return null;
   // get all chores from DynamoDB
   const chore = await db.getItem(TABLES.CHORES, choreId);
   return chore;
