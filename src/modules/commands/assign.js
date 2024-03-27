@@ -66,8 +66,8 @@ const _action = async (body) => {
   if (newChore) {
     newChore = {
       ...newChore,
-      user: user,
-      reviewer: reviewer,
+      user: user.id,
+      reviewer: reviewer.id,
       status: CHORE_STATES.ASSIGNED,
     };
     await db.put(TABLES.CHORES, newChore);
