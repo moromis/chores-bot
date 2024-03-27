@@ -1,7 +1,6 @@
 const db = require("./db");
 const TABLES = require("../constants/tables").TABLES;
 const { CHORE_ROLE, GARBAGE_ROLE } = require("../constants/roles");
-const services = require(".");
 const _ = require("lodash");
 
 const getAllUsers = async () => {
@@ -57,7 +56,7 @@ const updateUsers = async (client) => {
   ];
 
   if (users.length > 0) {
-    await services.db.batchWrite(TABLES.USERS, users);
+    await db.batchWrite(TABLES.USERS, users);
   }
 
   return users;
