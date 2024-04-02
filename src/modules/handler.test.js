@@ -48,7 +48,7 @@ describe("global handler", () => {
     await globalHandler(testEvent, testAction);
     expect(axiosSpy).toHaveBeenCalledWith(
       `https://discord.com/api/v10/webhooks/${testAppId}/${testToken}/messages/@original`,
-      testResponse
+      testResponse,
     );
   });
 
@@ -57,5 +57,19 @@ describe("global handler", () => {
     const axiosSpy = jest.spyOn(axios, "delete");
     await globalHandler(testEvent, testAction);
     expect(axiosSpy).toHaveBeenCalled();
+  });
+
+  test("it should catch errors if thrown by axios", async () => {
+    const testAction = jest.fn(() => Promise.resolve({ content: "test" }));
+    const testDeleteAction = jest.fn(() => Promise.resolve({ delete: true }));
+    const logSpy = jest.spyOn(console, "log");
+    const error = new Error("error");
+    const deleteError = new Error("delete error");
+    axios.patch.mockRejectedValueOnce(error);
+    axios.delete.mockRejectedValueOnce(deleteError);
+    await globalHandler(testEvent, testAction);
+    expect(logSpy).toHaveBeenCalledWith(error);
+    await globalHandler(testEvent, testDeleteAction);
+    expect(logSpy).toHaveBeenCalledWith(deleteError);
   });
 });
