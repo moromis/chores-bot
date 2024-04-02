@@ -1,6 +1,6 @@
 const { messageChoresChannel } = require("./messageChoresChannel");
 
-describe("getChores", () => {
+describe("messageChoresChannel", () => {
   it("should send a message to the channel given by the CHANNEL_ID env variable", async () => {
     const original = process.env.CHANNEL_ID;
     const testChannelId = "test-channel";

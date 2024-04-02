@@ -1,4 +1,16 @@
 const { CHORE_STATES } = require("../constants/chores");
+const { CHORE_ROLE, GARBAGE_ROLE } = require("../constants/roles");
+
+const testDiscordUsers = [
+  {
+    id: "1",
+    displayName: "user1",
+    roles: { cache: [{ name: CHORE_ROLE }, { name: GARBAGE_ROLE }] },
+  },
+  { id: "2", displayName: "user2", roles: { cache: [{ name: GARBAGE_ROLE }] } },
+  { id: "3", displayName: "user3", roles: { cache: [{ name: CHORE_ROLE }] } },
+  { id: "4", displayName: "user4", roles: { cache: [] } },
+];
 
 const testUsers = [
   { id: "1", displayName: "user1", numCycleChores: 5, currentChore: "test3" },
@@ -55,4 +67,5 @@ module.exports = {
   testUsersSortedByScoreDesc,
   getTestBody,
   allTestChores,
+  testDiscordUsers,
 };

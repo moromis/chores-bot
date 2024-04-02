@@ -14,7 +14,7 @@ const updateUsers = async (client) => {
   const members = await guild.members.fetch({ force: true });
   const currentUserList = members
     .filter((m) => {
-      return m.roles.cache.find(
+      return m?.roles?.cache.find(
         (r) => r.name === CHORE_ROLE || r.name === GARBAGE_ROLE,
       );
     })
@@ -52,7 +52,7 @@ const updateUsers = async (client) => {
     })),
     ...currentUsers.map((u) => ({
       ...u,
-      inactive: currentUserIds.includes(u.id) ? false : true,
+      inactive: currentUserIds.includes(u.id) ? false : true, // TODO: won't this always be false?
     })),
   ];
 
@@ -64,7 +64,8 @@ const updateUsers = async (client) => {
 };
 
 const getUser = async (userId) => {
-  // get all users from DynamoDB
+  if (!userId) return null;
+  // get the desired user from DynamoDB
   return await db.getItem(TABLES.USERS, userId);
 };
 
