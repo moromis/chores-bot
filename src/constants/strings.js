@@ -8,6 +8,7 @@ const NO_ASSIGNED_CHORE =
 const MAYBE_NO_CHORE =
   "Couldn't find your chore. Maybe you need to do `/assign`?";
 const SWAP_FAILED = "Failed to swap for a new chore.";
+const LAST_DAY = "This is the last day";
 
 const strings = {
   USER_HAS_CHORE,
@@ -16,6 +17,7 @@ const strings = {
   NO_ASSIGNED_CHORE,
   SWAP_FAILED,
   MAYBE_NO_CHORE,
+  LAST_DAY,
 };
 
 module.exports = strings;
