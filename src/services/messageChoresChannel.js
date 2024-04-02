@@ -1,6 +1,6 @@
 const messageChoresChannel = async (client, message) => {
-  const CHANNEL_ID = process.env.CHANNEL_ID;
-  const channel = await client.channels.fetch(CHANNEL_ID);
+  const channelId = process.env.CHANNEL_ID;
+  const channel = await client.channels.fetch(channelId);
   await channel.send(message);
 };
 
