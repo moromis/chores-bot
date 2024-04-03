@@ -1,9 +1,7 @@
 const { data, handler, _action } = require("./swap");
 const globalHandler = require("../handler");
-const { Client } = require("discord.js");
-const { getTestBody, testChores, testUsers } = require("../../test/structs");
+const { getTestBody, testChores, getTestUsers } = require("../../test/structs");
 const strings = require("../../constants/strings");
-const getChoreCompleteMessage = require("../../helpers/getChoreCompleteMessage");
 const { CHORE_STATES } = require("../../constants/chores");
 const services = require("../../services");
 const { TABLES } = require("../../constants/tables");
@@ -35,6 +33,7 @@ describe("swap", () => {
     expect(globalHandler).toHaveBeenCalledWith(testEvent, expect.anything());
   });
   test("if the user doesn't have an assigned chore, the command should let them know", async () => {
+    const testUsers = getTestUsers();
     services.getChore.mockReturnValue(null);
     services.getUser.mockReturnValue(testUsers[0]);
     const res = await _action(getTestBody("1"));
@@ -42,8 +41,10 @@ describe("swap", () => {
   });
   test("if the user doesn't have a chore the user should be put in the DB\
   without a currentChore prop and with scores adjusted correctly", async () => {
-    removeRandomFromList.mockReturnValue(testChores.incompleteChores[1]);
-    services.getChore.mockReturnValue(testChores.incompleteChores[0]);
+    const testUsers = getTestUsers();
+    const incompleteChores = testChores.getTestIncompleteChores();
+    removeRandomFromList.mockReturnValue(incompleteChores[1]);
+    services.getChore.mockReturnValue(incompleteChores[0]);
     services.getUser.mockReturnValue({
       ...testUsers[0],
       numCycleChores: 0,
@@ -55,20 +56,24 @@ describe("swap", () => {
     );
     expect(services.db.put.mock.calls[0][0]).toBe(TABLES.USERS);
     expect(services.db.put.mock.calls[0][1].id).toBe(testUsers[0].id);
+    const incompleteChoresResult = testChores.getTestIncompleteChores();
     expect(services.db.put.mock.calls[0][1].currentChore).toBe(
-      testChores.incompleteChores[1].id,
+      incompleteChoresResult[1].id,
     );
   });
   test("both the old chore and the new one should get properly written to the DB", async () => {
-    removeRandomFromList.mockReturnValue(testChores.incompleteChores[1]);
-    services.getChore.mockReturnValue(testChores.incompleteChores[0]);
+    const testUsers = getTestUsers();
+    const incompleteChores = testChores.getTestIncompleteChores();
+    removeRandomFromList.mockReturnValue(incompleteChores[1]);
+    services.getChore.mockReturnValue(incompleteChores[0]);
     services.getUser.mockReturnValue(
       _.omit(testUsers[0], ["numCycleChores", "numAllTimeChores"]),
     );
     await _action(getTestBody(testUsers[0].id));
     expect(services.db.batchWrite.mock.calls[0][0]).toBe(TABLES.CHORES);
+    const incompleteChoresResult = testChores.getTestIncompleteChores();
     expect(services.db.batchWrite.mock.calls[0][1][0].id).toBe(
-      testChores.incompleteChores[1].id,
+      incompleteChoresResult[1].id,
     );
     expect(services.db.batchWrite.mock.calls[0][1][0].status).toBe(
       CHORE_STATES.ASSIGNED,
@@ -78,7 +83,7 @@ describe("swap", () => {
     );
     expect(services.db.batchWrite.mock.calls[0][1][0]).toHaveProperty("user");
     expect(services.db.batchWrite.mock.calls[0][1][1].id).toBe(
-      testChores.incompleteChores[0].id,
+      incompleteChoresResult[0].id,
     );
     expect(services.db.batchWrite.mock.calls[0][1][1].status).toBe(
       CHORE_STATES.TODO,
@@ -92,8 +97,10 @@ describe("swap", () => {
   });
   test("if no new chore is given, a message should be returned to\
   indicate the command failed, and no DB operations should occur", async () => {
+    const testUsers = getTestUsers();
+    const incompleteChores = testChores.getTestIncompleteChores();
     removeRandomFromList.mockReturnValue(null);
-    services.getChore.mockReturnValue(testChores.incompleteChores[0]);
+    services.getChore.mockReturnValue(incompleteChores[0]);
     services.getUser.mockReturnValue(
       _.omit(testUsers[0], ["numCycleChores", "numAllTimeChores"]),
     );

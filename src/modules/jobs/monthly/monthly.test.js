@@ -1,15 +1,8 @@
 const { handler } = require("./monthly");
 const { Client } = require("discord.js");
 const services = require("../../../services");
-const {
-  testChores,
-  testUsers,
-  testUsersSortedByScoreDesc,
-} = require("../../../test/structs");
-const {
-  getDMReminderMessage,
-} = require("../../../helpers/getDMReminderMessage");
 const getMonthEndMessage = require("../../../helpers/getMonthEndMessage");
+const { getTestUsersSortedByScoreDesc } = require("../../../test/structs");
 
 jest.mock("../../../services");
 jest.mock("discord.js", () => ({
@@ -28,6 +21,7 @@ describe("monthly", () => {
     jest.clearAllMocks();
   });
   it("should message the chores channel if there's users", async () => {
+    const testUsersSortedByScoreDesc = getTestUsersSortedByScoreDesc();
     services.updateUsers.mockReturnValue(testUsersSortedByScoreDesc);
     await handler();
     expect(Client).toHaveBeenCalled();
@@ -47,6 +41,7 @@ describe("monthly", () => {
     expect(services.messageChoresChannel.mock.calls.length).toBe(0);
   });
   it("should push updated users to the DB, resetting numCycleChores", async () => {
+    const testUsersSortedByScoreDesc = getTestUsersSortedByScoreDesc();
     services.updateUsers.mockReturnValue(testUsersSortedByScoreDesc);
     await handler();
     expect(services.db.batchWrite.mock.calls.length).toBe(1);

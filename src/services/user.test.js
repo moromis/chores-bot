@@ -1,21 +1,18 @@
 const { getAllUsers, getUser, updateUsers } = require("./user");
 const db = require("../services/db");
-const {
-  testChores,
-  allTestChores,
-  testUsers,
-  testDiscordUsers,
-} = require("../test/structs");
-const { TABLES } = require("../constants/tables");
+const { getTestDiscordUsers, getTestUsers } = require("../test/structs");
 
 jest.mock("../services/db");
 
 describe("users", () => {
+  const testDiscordUsers = getTestDiscordUsers();
+
   beforeEach(() => {
     jest.clearAllMocks();
   });
   describe("getAllUsers", () => {
     it("should get all users", async () => {
+      const testUsers = getTestUsers();
       db.scan.mockReturnValue(testUsers);
       const res = await getAllUsers();
       expect(res).toEqual(testUsers);
@@ -24,6 +21,7 @@ describe("users", () => {
   });
   describe("updateUsers", () => {
     it("should filter out any users without desired roles", async () => {
+      const testUsers = getTestUsers();
       db.scan.mockReturnValue(testUsers);
       const original = process.env.GUILD_ID;
       const testGuildId = "test-guild";
@@ -121,6 +119,7 @@ describe("users", () => {
     });
   });
   it("should properly mark inactive useres", async () => {
+    const testUsers = getTestUsers();
     db.scan.mockReturnValue(testUsers);
     const fetchSpy = jest.fn(() => []);
     const testGuild = {
@@ -141,11 +140,13 @@ describe("users", () => {
   });
   describe("getUser", () => {
     it("should return null if not given a userId", async () => {
+      const testUsers = getTestUsers();
       db.getItem.mockReturnValue(testUsers[0]);
       const res = await getUser();
       expect(res).toEqual(null);
     });
     it("should get the requested user", async () => {
+      const testUsers = getTestUsers();
       db.getItem.mockReturnValue(testUsers[0]);
       const res = await getUser(testUsers[0].id);
       expect(res).toEqual(testUsers[0]);
