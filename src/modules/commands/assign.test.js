@@ -5,7 +5,11 @@ const services = require("../../services");
 const strings = require("../../constants/strings");
 const { TABLES } = require("../../constants/tables");
 const { CHORE_STATES } = require("../../constants/chores");
-const { testChores, getTestBody, getTestUsers } = require("../../test/structs");
+const {
+  testChores,
+  getTestBody,
+  getTestUsers,
+} = require("../../test-fixtures/fixtures");
 
 jest.mock("../handler", () => jest.fn(() => {}));
 jest.mock("../../services");

@@ -1,7 +1,7 @@
 const { handler } = require("./daily");
 const { Client } = require("discord.js");
 const services = require("../../../services");
-const { testChores } = require("../../../test/structs");
+const { testChores } = require("../../../test-fixtures/fixtures");
 const {
   getDMReminderMessage,
 } = require("../../../helpers/getDMReminderMessage");

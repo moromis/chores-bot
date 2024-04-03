@@ -6,7 +6,7 @@ const {
   getChore,
 } = require("./getChores");
 const db = require("../services/db");
-const { testChores, getAllTestChores } = require("../test/structs");
+const { testChores, getAllTestChores } = require("../test-fixtures/fixtures");
 const { TABLES } = require("../constants/tables");
 
 jest.mock("../services/db");

@@ -1,6 +1,10 @@
 const { data, handler, _action } = require("./swap");
 const globalHandler = require("../handler");
-const { getTestBody, testChores, getTestUsers } = require("../../test/structs");
+const {
+  getTestBody,
+  testChores,
+  getTestUsers,
+} = require("../../test-fixtures/fixtures");
 const strings = require("../../constants/strings");
 const { CHORE_STATES } = require("../../constants/chores");
 const services = require("../../services");

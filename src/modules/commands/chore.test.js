@@ -3,7 +3,11 @@ const globalHandler = require("../handler");
 const { Client } = require("discord.js");
 const services = require("../../services");
 const strings = require("../../constants/strings");
-const { testChores, getTestBody, getTestUsers } = require("../../test/structs");
+const {
+  testChores,
+  getTestBody,
+  getTestUsers,
+} = require("../../test-fixtures/fixtures");
 const getCurrentChoreMessage = require("../../helpers/getCurrentChoreMessage");
 
 jest.mock("../handler", () => jest.fn(() => {}));

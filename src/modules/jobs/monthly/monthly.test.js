@@ -2,7 +2,9 @@ const { handler } = require("./monthly");
 const { Client } = require("discord.js");
 const services = require("../../../services");
 const getMonthEndMessage = require("../../../helpers/getMonthEndMessage");
-const { getTestUsersSortedByScoreDesc } = require("../../../test/structs");
+const {
+  getTestUsersSortedByScoreDesc,
+} = require("../../../test-fixtures/fixtures");
 
 jest.mock("../../../services");
 jest.mock("discord.js", () => ({

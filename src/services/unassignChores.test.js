@@ -6,7 +6,7 @@ const {
   getChore,
 } = require("./getChores");
 const db = require("../services/db");
-const { testChores } = require("../test/structs");
+const { testChores } = require("../test-fixtures/fixtures");
 const { TABLES } = require("../constants/tables");
 const { unassignChores } = require("./unassignChores");
 const { CHORE_STATES } = require("../constants/chores");

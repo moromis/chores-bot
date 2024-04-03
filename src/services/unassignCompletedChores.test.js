@@ -1,5 +1,5 @@
 const { getCompletedChores } = require("./getChores");
-const { testChores } = require("../test/structs");
+const { testChores } = require("../test-fixtures/fixtures");
 const { unassignChores } = require("./unassignChores");
 const { unassignCompletedChores } = require("./unassignCompletedChores");
 

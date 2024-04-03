@@ -1,7 +1,11 @@
 const { data, handler, _action } = require("./complete");
 const globalHandler = require("../handler");
 const { Client } = require("discord.js");
-const { getTestBody, testChores, getTestUsers } = require("../../test/structs");
+const {
+  getTestBody,
+  testChores,
+  getTestUsers,
+} = require("../../test-fixtures/fixtures");
 const strings = require("../../constants/strings");
 const getChoreCompleteMessage = require("../../helpers/getChoreCompleteMessage");
 const { CHORE_STATES } = require("../../constants/chores");

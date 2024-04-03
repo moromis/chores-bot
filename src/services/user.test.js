@@ -1,6 +1,9 @@
 const { getAllUsers, getUser, updateUsers } = require("./user");
 const db = require("../services/db");
-const { getTestDiscordUsers, getTestUsers } = require("../test/structs");
+const {
+  getTestDiscordUsers,
+  getTestUsers,
+} = require("../test-fixtures/fixtures");
 
 jest.mock("../services/db");
 
