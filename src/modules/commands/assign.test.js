@@ -5,7 +5,7 @@ const services = require("../../services");
 const strings = require("../../constants/strings");
 const { TABLES } = require("../../constants/tables");
 const { CHORE_STATES } = require("../../constants/chores");
-const { testUsers, testChores, getTestBody } = require("../../test/structs");
+const { testChores, getTestBody, getTestUsers } = require("../../test/structs");
 
 jest.mock("../handler", () => jest.fn(() => {}));
 jest.mock("../../services");
@@ -23,7 +23,7 @@ jest.mock("../../helpers/getChoreMessage");
 
 describe("assign", () => {
   beforeAll(() => {
-    services.updateUsers.mockReturnValue(testUsers);
+    services.updateUsers.mockReturnValue(getTestUsers());
   });
   beforeEach(() => {
     jest.clearAllMocks();
@@ -45,17 +45,21 @@ describe("assign", () => {
   });
   test("if the user already has a chore, the discord.js client should be\
   destroyed and a message should be returned indicating the user already has a chore", async () => {
-    services.getTodoChores.mockReturnValue(testChores.todoChores);
-    services.getIncompleteChores.mockReturnValue(testChores.incompleteChores);
+    const todoChores = testChores.getTestTodoChores();
+    const incompleteChores = testChores.getTestIncompleteChores();
+    services.getTodoChores.mockReturnValue(todoChores);
+    services.getIncompleteChores.mockReturnValue(incompleteChores);
     const res = await _action(getTestBody("1"));
     expect(Client).toHaveBeenCalled();
     expect(Client.mock.results[0].value.destroy).toHaveBeenCalled();
     expect(res.content).toBe(strings.USER_HAS_CHORE);
   });
   test("if there aren't any available reviewers, a message should return that fact", async () => {
+    const incompleteChoresNoReviewersAvailable =
+      testChores.getTestIncompleteChoresNoReviewersAvailable();
     services.getTodoChores.mockReturnValue([]);
     services.getIncompleteChores.mockReturnValue(
-      testChores.incompleteChoresNoReviewersAvailable,
+      incompleteChoresNoReviewersAvailable,
     );
     const res = await _action(getTestBody("2"));
     expect(Client).toHaveBeenCalled();
@@ -63,10 +67,10 @@ describe("assign", () => {
     expect(res.content).toBe(strings.NO_REVIEWERS);
   });
   test("if the user doesn't have a chore, one should be assigned to them", async () => {
-    services.getTodoChores.mockReturnValue(testChores.todoChores);
-    services.getIncompleteChores.mockReturnValueOnce(
-      testChores.incompleteChores,
-    );
+    const todoChores = testChores.getTestTodoChores();
+    const incompleteChores = testChores.getTestIncompleteChores();
+    services.getTodoChores.mockReturnValue(todoChores);
+    services.getIncompleteChores.mockReturnValueOnce(incompleteChores);
     const res = await _action(getTestBody("2"));
     expect(Client).toHaveBeenCalled();
     expect(Client.mock.results[0].value.destroy).toHaveBeenCalled();
@@ -81,8 +85,9 @@ describe("assign", () => {
     expect(services.db.put.mock.calls[1][1]).toHaveProperty("currentChore");
   });
   test("if something goes wrong getting a new chore, the user should be notified, and nothing should be written to the db", async () => {
+    const incompleteChores = testChores.getTestIncompleteChores();
     services.getTodoChores.mockReturnValue([]);
-    services.getIncompleteChores.mockReturnValue(testChores.incompleteChores);
+    services.getIncompleteChores.mockReturnValue(incompleteChores);
     const res = await _action(getTestBody("2"));
     expect(Client).toHaveBeenCalled();
     expect(Client.mock.results[0].value.destroy).toHaveBeenCalled();

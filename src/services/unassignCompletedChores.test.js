@@ -8,9 +8,11 @@ jest.mock("./unassignChores");
 
 describe("unassignCompletedChores", () => {
   it("should call getCompletedChores and unassignChores", async () => {
-    getCompletedChores.mockReturnValue(testChores.completedChores);
+    const completedChores = testChores.getTestCompletedChores();
+    getCompletedChores.mockReturnValue(completedChores);
     await unassignCompletedChores();
     expect(getCompletedChores.mock.calls.length).toBe(1);
-    expect(unassignChores.mock.calls[0][0]).toEqual(testChores.completedChores);
+    const completedChoresResult = testChores.getTestCompletedChores();
+    expect(unassignChores.mock.calls[0][0]).toEqual(completedChoresResult);
   });
 });

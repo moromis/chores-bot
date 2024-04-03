@@ -3,9 +3,7 @@ const globalHandler = require("../handler");
 const { Client } = require("discord.js");
 const services = require("../../services");
 const strings = require("../../constants/strings");
-const { TABLES } = require("../../constants/tables");
-const { CHORE_STATES } = require("../../constants/chores");
-const { testUsers, testChores, getTestBody } = require("../../test/structs");
+const { testChores, getTestBody, getTestUsers } = require("../../test/structs");
 const getCurrentChoreMessage = require("../../helpers/getCurrentChoreMessage");
 
 jest.mock("../handler", () => jest.fn(() => {}));
@@ -43,7 +41,7 @@ describe("chore", () => {
   });
   test("if the user's chore can't be found the discord.js client should be\
   destroyed and a message should be returned indicating the user might not have a chore", async () => {
-    // services.getChore.mockReturnValue(testChores.incompleteChores[0]);
+    const testUsers = getTestUsers();
     services.getUser.mockReturnValue(testUsers[0]);
     const res = await _action(getTestBody(testUsers[0].id));
     expect(Client).toHaveBeenCalled();
@@ -51,14 +49,17 @@ describe("chore", () => {
     expect(res.content).toBe(strings.MAYBE_NO_CHORE);
   });
   test("if the user does have a chore, the user should be DMed with their chore details, and the original message should be deleted", async () => {
-    services.getChore.mockReturnValue(testChores.incompleteChores[0]);
+    const testUsers = getTestUsers();
+    const incompleteChores = testChores.getTestIncompleteChores();
+    services.getChore.mockReturnValue(incompleteChores[0]);
     services.getUser.mockReturnValue(testUsers[0]);
     const res = await _action(getTestBody(testUsers[0].id));
     expect(Client).toHaveBeenCalled();
     expect(Client.mock.results[0].value.destroy).toHaveBeenCalled();
     expect(services.dmUser.mock.calls).toHaveLength(1);
+    const incompleteChoresResult = testChores.getTestIncompleteChores();
     expect(services.dmUser.mock.calls[0][2]).toBe(
-      getCurrentChoreMessage(testChores.incompleteChores[0]),
+      getCurrentChoreMessage(incompleteChoresResult[0]),
     );
     expect(res.content).toBe(undefined);
     expect(res.delete).toBe(true);
