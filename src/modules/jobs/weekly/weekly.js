@@ -60,7 +60,7 @@ exports.handler = async () => {
   );
 
   // duplicate users list to list named reviewers
-  const reviewers = activeUsers;
+  let reviewerIds = activeUsers.map((r) => r.id);
 
   // make empty list named assignedChores
   const assignedChores = [];
@@ -82,8 +82,12 @@ exports.handler = async () => {
   const usersToWrite = [];
 
   activeUsers.forEach((user) => {
+    const reviewersHasUser = _.includes(reviewerIds, user.id);
     // pick a random user from reviewers list, remove from list
-    const reviewer = removeRandomFromList(_.without(reviewers, user));
+    if (reviewersHasUser) {
+      reviewerIds = _.without(reviewerIds, user.id);
+    }
+    const reviewer = removeRandomFromList(reviewerIds);
 
     // pick a random chore, change status to assigned, change user to user, change reviewer to reviewer
     const selectedChore = removeRandomFromList(unassignedChores);
@@ -101,10 +105,15 @@ exports.handler = async () => {
         ...selectedChore,
         status: CHORE_STATES.ASSIGNED,
         user: user.id,
-        reviewer: reviewer.id,
+        reviewer: reviewer,
       };
       // add chore to assignedChores list
       assignedChores.push(choreToAssign);
+    }
+
+    // put the user back into the reviewers pool if they were there before
+    if (reviewersHasUser) {
+      reviewerIds = [...reviewerIds, user.id];
     }
   });
 

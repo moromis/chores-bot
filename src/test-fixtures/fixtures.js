@@ -31,6 +31,17 @@ const testUsersSortedByScoreDesc = [
   { id: "2", displayName: "user2", numCycleChores: 1 },
 ];
 
+const generateTestUsers = (numToGenerate) => {
+  const users = [];
+  for (let i = 0; i < numToGenerate; i++) {
+    users.push({
+      id: `${i}`,
+      displayName: `user${i}`,
+    });
+  }
+  return users;
+};
+
 const getTestUsersSortedByScoreDesc = () =>
   cloneDeep(testUsersSortedByScoreDesc);
 
@@ -38,6 +49,17 @@ const todoChores = [
   { id: "test", status: CHORE_STATES.TODO },
   { id: "test2", status: CHORE_STATES.TODO },
 ];
+
+const generateTodoChores = (numToGenerate) => {
+  const chores = [];
+  for (let i = 0; i < numToGenerate; i++) {
+    chores.push({
+      id: `test${i}`,
+      status: CHORE_STATES.TODO,
+    });
+  }
+  return chores;
+};
 
 const incompleteChores = [
   { id: "test3", status: CHORE_STATES.ASSIGNED, reviewer: "3", user: "1" },
@@ -83,4 +105,6 @@ module.exports = {
   getTestBody,
   getAllTestChores,
   getTestDiscordUsers,
+  generateTodoChores,
+  generateTestUsers,
 };
