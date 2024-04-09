@@ -1,7 +1,7 @@
 const { handler } = require("./weekly");
 const { Client } = require("discord.js");
 const services = require("../../../services");
-const { testChores, getTestUsers } = require("../../../test/structs");
+const { testChores, getTestUsers } = require("../../../test-fixtures/fixtures");
 
 jest.mock("../../../services");
 jest.mock("discord.js", () => ({
