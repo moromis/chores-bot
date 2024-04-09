@@ -68,8 +68,11 @@ exports.handler = async () => {
   // get all unassigned chores
   let unassignedChores = await services.getTodoChores();
 
-  // if the length of the unassigned chores list is 0, move all complete chores to unassigned
-  if (unassignedChores.length === 0) {
+  // if we don't have enough chores, move all completed chores to unassigned
+  if (
+    unassignedChores.length === 0 ||
+    unassignedChores.length < activeUsers.length
+  ) {
     // TODO: big deal here! celebrate all chores being done! (should probably abstract to helper method
     // since we do this in more than one place)
     await services.unassignCompletedChores();
@@ -78,40 +81,32 @@ exports.handler = async () => {
 
   const usersToWrite = [];
 
-  await Promise.all(
-    activeUsers.map(async (user) => {
-      // if the length of the unassigned chores list is 0, move all complete chores to unassigned
-      if (unassignedChores.length === 0) {
-        // TODO: big deal here! celebrate all chores being done!
-        await services.unassignCompletedChores();
-        unassignedChores = await services.getTodoChores();
-      }
-      // pick a random user from reviewers list, remove from list
-      const reviewer = removeRandomFromList(_.without(reviewers, user));
+  activeUsers.forEach((user) => {
+    // pick a random user from reviewers list, remove from list
+    const reviewer = removeRandomFromList(_.without(reviewers, user));
 
-      // pick a random chore, change status to assigned, change user to user, change reviewer to reviewer
-      const selectedChore = removeRandomFromList(unassignedChores);
-      if (!selectedChore) {
-        console.warn("unable to select a chore for ", user.displayName);
-      } else {
-        usersToWrite.push({
-          ...user,
-          currentChore: selectedChore.id,
-          ...(user.extraPointage
-            ? { numCycleChores: user.numCycleChores + user.extraPointage }
-            : {}),
-        });
-        const choreToAssign = {
-          ...selectedChore,
-          status: CHORE_STATES.ASSIGNED,
-          user: user.id,
-          reviewer: reviewer.id,
-        };
-        // add chore to assignedChores list
-        assignedChores.push(choreToAssign);
-      }
-    }),
-  );
+    // pick a random chore, change status to assigned, change user to user, change reviewer to reviewer
+    const selectedChore = removeRandomFromList(unassignedChores);
+    if (!selectedChore) {
+      console.warn("unable to select a chore for ", user.displayName);
+    } else {
+      usersToWrite.push({
+        ...user,
+        currentChore: selectedChore.id,
+        ...(user.extraPointage
+          ? { numCycleChores: user.numCycleChores + user.extraPointage }
+          : {}),
+      });
+      const choreToAssign = {
+        ...selectedChore,
+        status: CHORE_STATES.ASSIGNED,
+        user: user.id,
+        reviewer: reviewer.id,
+      };
+      // add chore to assignedChores list
+      assignedChores.push(choreToAssign);
+    }
+  });
 
   // after loop: iterate over assignedChores (Promise.all) and send message for each to channel @ing user with their new chore,
   //             update user and chore in db
