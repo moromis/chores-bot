@@ -5,6 +5,8 @@ const { testChores } = require("../../../test-fixtures/fixtures");
 const {
   getDMReminderMessage,
 } = require("../../../helpers/getDMReminderMessage");
+const strings = require("../../../constants/strings");
+const mockdate = require("mockdate");
 
 jest.mock("../../../services");
 jest.mock("discord.js", () => ({
@@ -22,6 +24,9 @@ jest.mock("../../../helpers/getDMReminderMessage");
 describe("daily", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+  });
+  afterAll(() => {
+    mockdate.reset();
   });
   it("should get all incomplete chores", async () => {
     services.getIncompleteChores.mockReturnValue([]);
@@ -56,5 +61,29 @@ describe("daily", () => {
     expect(getDMReminderMessage.mock.calls.length).toBe(
       incompleteChoresResult.length - 1,
     );
+  });
+  it("should send a last day message if today is sunday", async () => {
+    mockdate.set("2024-04-07"); // a given sunday
+    getDMReminderMessage.mockImplementationOnce(
+      jest.requireActual("../../../helpers/getDMReminderMessage")
+        .getDMReminderMessage,
+    );
+    const incompleteChores = testChores.getTestIncompleteChores();
+    services.getIncompleteChores.mockReturnValue(incompleteChores.slice(1));
+    await handler();
+    expect(services.dmUser.mock.calls[0][2].includes(strings.LAST_DAY)).toBe(
+      true,
+    );
+  });
+  it("should send a message telling the user they have 1 day if it's a Saturday", async () => {
+    mockdate.set("2024-04-06"); // a given saturday
+    getDMReminderMessage.mockImplementationOnce(
+      jest.requireActual("../../../helpers/getDMReminderMessage")
+        .getDMReminderMessage,
+    );
+    const incompleteChores = testChores.getTestIncompleteChores();
+    services.getIncompleteChores.mockReturnValue(incompleteChores.slice(1));
+    await handler();
+    expect(services.dmUser.mock.calls[0][2].includes("1 day")).toBe(true);
   });
 });

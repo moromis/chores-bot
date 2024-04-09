@@ -8,6 +8,8 @@ const {
   getDMReminderMessage,
 } = require("../../../helpers/getDMReminderMessage");
 
+const DAY_JS_SUNDAY_INT = 6;
+
 exports.handler = async () => {
   // Create a new client instance
   const client = new Client({
@@ -25,7 +27,7 @@ exports.handler = async () => {
       .filter((chore) => chore.status === CHORE_STATES.ASSIGNED)
       .map(async (chore) => {
         const { user } = chore;
-        const nextSunday = dayjs().weekday(7);
+        const nextSunday = dayjs().weekday(DAY_JS_SUNDAY_INT);
         const now = dayjs();
         const days = nextSunday.diff(now, "days");
 
