@@ -13,7 +13,7 @@ Parameters:
 
 Globals:
   Function:
-    Timeout: 10
+    Timeout: 120
 
 Resources:
   MainSNSTopic:
