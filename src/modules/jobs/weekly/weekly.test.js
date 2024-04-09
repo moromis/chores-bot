@@ -44,6 +44,18 @@ describe("weekly", () => {
     expect(services.unassignCompletedChores).toHaveBeenCalled();
     expect(services.getTodoChores).toHaveBeenCalledTimes(2);
   });
+  it("should unassign completed chores if there's too few chores", async () => {
+    const testUsers = getTestUsers();
+    const todoChores = testChores.getTestTodoChores();
+    services.getIncompleteChores.mockReturnValue([]);
+    services.updateUsers.mockReturnValue(testUsers);
+    services.getTodoChores
+      .mockReturnValueOnce(todoChores.slice(0, testUsers.length - 2))
+      .mockReturnValue(todoChores);
+    await handler();
+    expect(services.unassignCompletedChores).toHaveBeenCalled();
+    expect(services.getTodoChores).toHaveBeenCalledTimes(2);
+  });
   it("should give a user with `extraPointage` defined more points", async () => {
     const testUsers = getTestUsers();
     const incompleteChores = testChores.getTestIncompleteChores();
