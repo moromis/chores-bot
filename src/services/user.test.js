@@ -47,6 +47,33 @@ describe("users", () => {
       expect(res.filter((u) => u.inactive).length).toBe(1);
       process.env.GUILD_ID = original;
     });
+    it("should add extraPointage to the appropriate users", async () => {
+      const testUsers = getTestDiscordUsers();
+      db.scan.mockReturnValue(testUsers);
+      const original = process.env.GUILD_ID;
+      const testGuildId = "test-guild";
+      process.env.GUILD_ID = testGuildId;
+      const fetchSpy = jest.fn(() => testDiscordUsers);
+      const testGuild = {
+        members: {
+          fetch: fetchSpy,
+        },
+      };
+      const guildsSpy = jest.fn(() => testGuild);
+      const testClient = {
+        guilds: {
+          resolve: guildsSpy,
+        },
+      };
+      const users = await updateUsers(testClient);
+      expect(users.filter((u) => u.extraPointage).length).toBe(2);
+      users.forEach((u) => {
+        expect(u).toHaveProperty("numCycleChores");
+        expect(u).toHaveProperty("numAllTimeChores");
+        expect(u).toHaveProperty("inactive");
+      });
+      process.env.GUILD_ID = original;
+    });
     it("should NOT write to the DB if there are no users", async () => {
       db.scan.mockReturnValue([]);
       const fetchSpy = jest.fn(() => []);

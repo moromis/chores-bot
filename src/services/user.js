@@ -35,21 +35,25 @@ const updateUsers = async (client) => {
   // users that are now inactive are ones that were in the DB but aren't in our current list
   const inactiveUsers = _.differenceBy(dbUserList, currentUserList, "id");
   // current users, to keep
-  const currentUsers = _.intersectionBy(dbUserList, currentUserList, "id");
+  const currentUsers = _.intersectionBy(currentUserList, dbUserList, "id");
 
   // create list of current users
   const users = [
     ...newUsers.map((u) => ({
-      ...u,
       numCycleChores: 0,
       numAllTimeChores: 0,
+      ...u,
       inactive: false,
     })),
     ...inactiveUsers.map((u) => ({
+      numCycleChores: 0,
+      numAllTimeChores: 0,
       ...u,
       inactive: true,
     })),
     ...currentUsers.map((u) => ({
+      numCycleChores: 0,
+      numAllTimeChores: 0,
       ...u,
       inactive: currentUserIds.includes(u.id) ? false : true, // TODO: won't this always be false?
     })),
